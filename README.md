@@ -3,4 +3,4 @@
 
 Asignaturas troncales:
 * [Teoría de la Información](ti/)
-
+* [Computación Numérica](cn/)

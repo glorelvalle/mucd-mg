@@ -39,30 +39,6 @@ public class WordCount {
     }
   }
 
-  public static void main(String[] args) throws Exception {
-    Configuration conf = new Configuration();
-
-    /*String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
-    if (otherArgs.length != 2) {
-      System.err.println("Usage: wordcount <in> <out>");
-      System.exit(2);
-    }*/
-
-    @SuppressWarnings("deprecation")
-    Job job = new Job(conf, "wordcount");
-    job.setJarByClass(WordCount.class);
-    job.setMapperClass(TokenizerMapper.class);
-    //job.setCombinerClass(IntSumReducer.class);
-    job.setReducerClass(IntSumReducer.class);
-    job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(IntWritable.class);
-
-    FileInputFormat.addInputPath(job, new Path(args[0]));
-    FileOutputFormat.setOutputPath(job, new Path(args[1]));
-
-    System.exit(job.waitForCompletion(true) ? 0 : 1);
-  }
-
  public static class TokenizerMapper extends Mapper<Object, Text, Text, IntWritable>{
    private final static IntWritable one = new IntWritable(1);
    private Text word = new Text();
@@ -91,19 +67,27 @@ public class WordCount {
    }
  }
 
- public static void main(String[] args) throws Exception{
-   Configuration conf = new Configuration();
+  public static void main(String[] args) throws Exception {
+    Configuration conf = new Configuration();
 
-   Job job = new Job(conf, "wordcount");
-   job.setJarByClass(WordCount.class);
-   job.setMapperClass(TokenizerMapper.class);
-   job.setReducerClass(IntSumReducer.class);
-   job.setOutputKeyClass(Text.class);
-   job.setOutputValueClass(IntWritable.class);
+    /*String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
+    if (otherArgs.length != 2) {
+      System.err.println("Usage: wordcount <in> <out>");
+      System.exit(2);
+    }*/
 
-   FileInputFormat.addInputPath(job, new Path(args[0]));
-   FileOutputFormat.setOutputPath(job, new Path(args[1));
+    @SuppressWarnings("deprecation")
+    Job job = new Job(conf, "wordcount");
+    job.setJarByClass(WordCount.class);
+    job.setMapperClass(TokenizerMapper.class);
+    //job.setCombinerClass(IntSumReducer.class);
+    job.setReducerClass(IntSumReducer.class);
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(IntWritable.class);
 
-   System.exit(job.waitForCompletion(true) ? 0 : 1);
- }
+    FileInputFormat.addInputPath(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+    System.exit(job.waitForCompletion(true) ? 0 : 1);
+  }
 }

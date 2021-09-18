@@ -1,0 +1,13 @@
+para javac:
+
+yum install java-1.8.0-openjdk-devel
+
+
+para compilar dentro de hdfs (dentro de opt/hadoop):
+
+bin/hadoop fs -cat /user/bigdata/compilar.bash | exec bash -s WordCount
+
+
+para ejecutar:
+
+bin/hadoop jar WordCount.jar uam.WordCount quijote.txt WordCount/

@@ -2,7 +2,7 @@
 
 file=$1
 
-HADOOP_CLASSPATH=$(opt/hadoop/bin/hadoop classpath)
+HADOOP_CLASSPATH=$(/opt/hadoop/bin/hadoop classpath)
 echo $HADOOP_CLASSPATH
 
 rm -rf ${file}

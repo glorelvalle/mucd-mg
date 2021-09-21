@@ -3,11 +3,11 @@ para javac:
 yum install java-1.8.0-openjdk-devel
 
 
-para compilar dentro de hdfs (dentro de opt/hadoop):
+para compilar:
 
-bin/hadoop fs -cat /user/bigdata/compilar.bash | exec bash -s WordCount
+sudo bash compilar2.bash WordCount2
 
 
 para ejecutar:
 
-bin/hadoop jar WordCount.jar uam.WordCount quijote.txt WordCount/
+bin/hadoop jar WordCount2.jar uam.WordCount2 /user/bigdata/quijote.txt WordCount2/

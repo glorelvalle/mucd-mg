@@ -1,0 +1,13 @@
+para javac:
+
+yum install java-1.8.0-openjdk-devel
+
+
+para compilar:
+
+sudo bash compilar2.bash WordCount2
+
+
+para ejecutar:
+
+bin/hadoop jar WordCount2.jar uam.WordCount2 /user/bigdata/quijote.txt WordCount2/

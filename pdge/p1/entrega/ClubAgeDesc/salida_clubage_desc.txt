@@ -1,0 +1,651 @@
+1. FC Heidenheim 1846	24 17 32
+1. FC Kaiserslautern	23,85 19 33
+1. FC Köln	24,32 17 35
+1. FC Magdeburg	24,69 19 32
+1. FC Nürnberg	23,79 18 34
+1. FC Union Berlin	25,25 18 32
+1. FSV Mainz 05	23,69 17 33
+AC Ajaccio	27,04 18 36
+AC Horsens	25 18 35
+AD Alcorcón	26,9 19 35
+ADO Den Haag	24,68 18 35
+AEK Athens	24,54 17 31
+AFC Wimbledon	23,62 17 31
+AIK	26,07 17 38
+AJ Auxerre	25,19 16 37
+AS Béziers	25,77 18 35
+AS Monaco	23,06 16 34
+AS Nancy Lorraine	24,93 18 33
+AS Saint-Étienne	25,42 17 32
+AZ Alkmaar	23,07 17 33
+Aalborg BK	23,37 17 35
+Aarhus GF	23,78 17 31
+Aberdeen	24,15 17 33
+Accrington Stanley	24,82 18 44
+Adelaide United	24,36 16 33
+Ajax	22,3 18 34
+Akhisar Belediyespor	29,27 18 38
+Al Ahli	25,93 19 34
+Al Batin	25,1 19 35
+Al Faisaly	26,43 20 34
+Al Fateh	24,89 21 32
+Al Fayha	26,29 19 37
+Al Hazem	25,53 19 32
+Al Hilal	26,73 19 37
+Al Ittihad	25,33 19 34
+Al Nassr	26,28 18 36
+Al Qadisiyah	24,9 19 34
+Al Raed	25,53 19 33
+Al Shabab	24,3 18 34
+Al Taawoun	26,17 19 37
+Al Wehda	24,8 18 34
+Alanyaspor	27,2 18 34
+Albacete BP	24,5 18 34
+Alianza Petrolera	25,07 20 32
+Amiens SC	24,31 18 35
+América FC (Minas Gerais)	28,6 26 34
+América de Cali	26,57 18 34
+Angers SCO	25,93 17 35
+Antalyaspor	26,8 18 33
+Argentinos Juniors	23,75 17 35
+Arka Gdynia	25,44 17 34
+Arsenal	24,61 17 36
+Ascoli	24,83 18 33
+Aston Villa	25,37 17 34
+Atalanta	24,54 19 32
+Athletic Club de Bilbao	24,77 18 37
+Atiker Konyaspor	27,15 21 34
+Atlanta United	24,79 18 34
+Atlético Bucaramanga	26,43 20 37
+Atlético Huila	23,79 16 40
+Atlético Madrid	23,76 17 33
+Atlético Mineiro	28,8 26 34
+Atlético Nacional	24,54 17 37
+Atlético Paranaense	30,4 26 34
+Atlético Tucumán	27,79 17 40
+Audax Italiano	23,79 18 32
+BB Erzurumspor	27,2 18 35
+BK Häcken	25,44 17 35
+BSC Young Boys	24,08 18 35
+Bahia	30 26 34
+Barnsley	22,11 18 25
+Bayer 04 Leverkusen	24,35 17 34
+Beijing Renhe FC	27,21 20 36
+Beijing Sinobo Guoan FC	26,21 18 35
+Belgrano de Córdoba	24,93 16 36
+Benevento	26,88 20 38
+Beşiktaş JK	26,46 17 35
+Birmingham City	25,2 19 36
+Blackburn Rovers	23,77 18 33
+Blackpool	24,68 17 31
+Boavista FC	26,26 17 37
+Boca Juniors	25,81 18 34
+Bohemian FC	21,48 16 33
+Bologna	25,46 18 36
+Bolton Wanderers	27,47 17 35
+Borussia Dortmund	23,09 17 33
+Borussia Mönchengladbach	24,23 18 33
+Botafogo	30,4 26 34
+Bournemouth	24,38 18 38
+Boyacá Chicó FC	24,96 18 34
+Bradford City	24,96 19 35
+Bray Wanderers	22,22 16 33
+Brentford	22,53 17 30
+Brescia	23,6 17 35
+Brighton & Hove Albion	25,25 18 37
+Brisbane Roar	26,7 19 35
+Bristol City	24,3 19 33
+Bristol Rovers	25,14 18 33
+Brøndby IF	24,41 17 30
+Burnley	25,76 18 34
+Bursaspor	24,33 18 33
+Burton Albion	25,18 18 37
+Bury	25,64 17 36
+CA Osasuna	26,2 20 34
+CD Antofagasta	25,71 18 36
+CD Aves	26,96 21 35
+CD Everton de Viña del Mar	24,11 18 31
+CD Feirense	26,58 19 35
+CD Huachipato	22,85 18 31
+CD Leganés	25,21 19 34
+CD Lugo	24,87 20 35
+CD Nacional	24,65 18 33
+CD Numancia	25,5 20 32
+CD O'Higgins	24,39 18 36
+CD Palestino	25,75 18 35
+CD Tenerife	25,23 19 34
+CD Tondela	25,2 21 37
+CD Universidad de Concepción	27,52 19 41
+CF Rayo Majadahonda	26,04 16 34
+CF Reus Deportiu	23,82 18 35
+Cagliari	28,42 21 36
+Cambridge United	24,54 16 44
+Cardiff City	26,15 19 35
+Carlisle United	25,08 17 33
+Carpi	24,27 18 31
+Ceará Sporting Club	30,2 26 34
+Celtic	25,68 19 37
+Central Coast Mariners	24,44 18 34
+Cerezo Osaka	27,33 19 36
+Chamois Niortais Football Club	22,29 18 32
+Changchun Yatai FC	26,89 21 35
+Chapecoense	30,4 26 34
+Charlton Athletic	24,14 19 33
+Chelsea	25,21 17 38
+Cheltenham Town	25,5 19 35
+Chicago Fire	25,74 19 33
+Chievo Verona	27,68 17 39
+Chongqing Dangdai Lifan FC SWM Team	28,18 20 36
+Cittadella	24,34 18 36
+Clermont Foot 63	24,12 19 34
+Club América	24,37 18 34
+Club Atlas	23,34 18 35
+Club Atlético Aldosivi	27,29 18 36
+Club Atlético Banfield	23,52 18 34
+Club Atlético Colón	25,46 17 39
+Club Atlético Huracán	26,79 19 36
+Club Atlético Lanús	24,43 17 31
+Club Atlético Talleres	23,93 18 39
+Club Atlético Tigre	28,07 19 36
+Club Brugge KV	22,86 17 30
+Club Deportes Temuco	26,39 18 37
+Club León	25,17 18 33
+Club Necaxa	24,87 19 37
+Club Tijuana	24,25 17 38
+Clube Sport Marítimo	25,96 20 34
+Colchester United	22,43 17 31
+Colo-Colo	25,71 18 37
+Colorado Rapids	25,87 16 39
+Columbus Crew SC	25,81 19 35
+Cork City	23,92 18 37
+Cosenza	25,23 17 36
+Coventry City	23,18 18 36
+Cracovia	24,78 17 36
+Crawley Town	25,92 17 39
+Crewe Alexandra	23,36 17 35
+Crotone	24,42 17 35
+Cruz Azul	26,4 17 37
+Cruzeiro	30,6 26 34
+Crystal Palace	25,19 18 39
+Curicó Unido	27,46 19 35
+Cádiz CF	25,93 20 39
+Córdoba CF	25 18 33
+DC United	25,86 18 33
+DSC Arminia Bielefeld	24,25 17 33
+Daegu FC	23,64 19 31
+Dalian YiFang FC	26,71 21 39
+Dalkurd FF	25,71 18 30
+De Graafschap	23,7 19 31
+Defensa y Justicia	24,64 18 34
+Deportes Iquique	26,04 17 38
+Deportes Tolima	25,18 18 34
+Deportivo Alavés	24,7 19 32
+Deportivo Cali	25,18 17 37
+Deportivo Pasto	26,32 19 38
+Deportivo Toluca	26,39 18 35
+Deportivo de La Coruña	26 19 35
+Derby County	26,17 17 33
+Derry City	22,11 17 34
+Dijon FCO	26,08 17 38
+Dinamo Zagreb	24,54 19 32
+Djurgårdens IF	25 17 36
+Doncaster Rovers	23,71 17 37
+Dundalk	25 18 36
+Dundee FC	24,81 18 38
+Dynamo Kyiv	23,64 17 30
+ESTAC Troyes	26 18 41
+Eintracht Braunschweig	23,5 18 34
+Eintracht Frankfurt	25 17 34
+Elche CF	26,46 17 39
+Empoli	25,06 18 37
+En Avant de Guingamp	25,12 18 34
+Envigado FC	22,04 18 29
+Esbjerg fB	23,8 16 34
+Estudiantes de La Plata	25,46 18 39
+Ettifaq FC	23,77 18 32
+Everton	24,21 18 35
+Excelsior	24,15 17 35
+Exeter City	24,43 17 36
+Extremadura UD	26,2 19 35
+FC Admira Wacker Mödling	21,93 16 31
+FC Augsburg	24,61 17 34
+FC Barcelona	23,85 18 32
+FC Basel 1893	24,15 17 33
+FC Bayern München	24,31 17 35
+FC Carl Zeiss Jena	23,68 18 30
+FC Dallas	24,55 17 35
+FC Emmen	24,2 18 40
+FC Energie Cottbus	25,14 17 35
+FC Erzgebirge Aue	24,59 18 36
+FC Girondins de Bordeaux	23,48 18 36
+FC Groningen	21,42 18 36
+FC Hansa Rostock	24,56 18 35
+FC Ingolstadt 04	24,83 18 35
+FC København	25,74 19 36
+FC Lorient	24,23 17 34
+FC Lugano	24,89 17 35
+FC Luzern	23,81 18 34
+FC Metz	24,19 18 33
+FC Midtjylland	24,04 17 34
+FC Nantes	24,25 17 32
+FC Nordsjælland	20,26 17 27
+FC Porto	24,96 18 37
+FC Red Bull Salzburg	23,37 17 35
+FC Schalke 04	25 17 35
+FC Seoul	27,54 19 36
+FC Sion	24,56 18 35
+FC Sochaux-Montbéliard	21,68 18 28
+FC St. Gallen	24,04 18 33
+FC St. Pauli	25 18 32
+FC Thun	24,69 18 36
+FC Tokyo	25,07 18 36
+FC Utrecht	23,73 17 32
+FC Wacker Innsbruck	24 19 33
+FC Würzburger Kickers	23,19 17 31
+FC Zürich	24,26 17 38
+FK Austria Wien	23,63 17 31
+FK Bodø/Glimt	24,19 16 34
+FK Haugesund	23,09 18 34
+FSV Zwickau	24,6 17 35
+Fenerbahçe SK	27,1 18 36
+Feyenoord	22,89 17 32
+Fiorentina	23,42 18 35
+Fleetwood Town	25,21 18 34
+Fluminense	30,2 26 34
+Foggia	25,67 17 40
+Forest Green Rovers	23,58 18 30
+Fortuna Düsseldorf	24,52 18 36
+Fortuna Sittard	22,26 18 28
+Frosinone	25,55 19 35
+Fulham	23,28 17 30
+GD Chaves	26,72 21 35
+GFC Ajaccio	25,35 18 35
+GIF Sundsvall	24,48 18 31
+Galatasaray SK	25 17 33
+Gamba Osaka	25 17 38
+Gangwon FC	27,32 19 34
+Genoa	25,78 19 35
+Getafe CF	25,46 18 36
+Gillingham	23,25 18 33
+Gimnasia y Esgrima La Plata	24,68 18 37
+Gimnàstic de Tarragona	25,43 20 34
+Girona FC	24,72 18 37
+Godoy Cruz	22,54 17 28
+Granada CF	24,83 19 32
+Grasshopper Club Zürich	22,85 19 30
+Grenoble Foot 38	27,08 22 37
+Grimsby Town	25 17 37
+Grêmio	30 26 34
+Guadalajara	24,55 18 38
+Guangzhou Evergrande Taobao FC	27,11 21 37
+Guangzhou R&F; FC	25,82 19 34
+Guizhou Hengfeng FC	27,5 20 38
+Gyeongnam FC	27,43 19 35
+Górnik Zabrze	22,15 18 34
+Göztepe SK	26,86 17 36
+HJK Helsinki	23,27 17 36
+Hallescher FC	22,96 18 29
+Hamburger SV	22,37 17 31
+Hamilton Academical FC	24,61 19 35
+Hammarby IF	25,07 17 37
+Hannover 96	24,45 19 32
+Heart of Midlothian	25 17 38
+Hebei China Fortune FC	27,57 20 34
+Hellas Verona	24,69 18 33
+Henan Jianye FC	25,57 19 32
+Heracles Almelo	23,72 19 31
+Hertha BSC	23,84 18 33
+Hibernian	25,8 19 34
+Hobro IK	25,72 18 34
+Hokkaido Consadole Sapporo	28,07 19 39
+Holstein Kiel	24,03 18 33
+Houston Dynamo	26,57 17 36
+Huddersfield Town	23,44 17 30
+Hull City	24,33 18 33
+IF Brommapojkarna	23,81 16 29
+IF Elfsborg	25,33 18 36
+IFK Göteborg	23,57 16 36
+IFK Norrköping	24,42 18 36
+IK Sirius	26,41 17 36
+IK Start	23,79 18 36
+Incheon United FC	26,21 20 33
+Independiente	26,14 18 33
+Independiente Medellín	24,89 17 35
+Independiente Santa Fe	28,11 19 39
+Inter	27,46 20 35
+Internacional	29,6 26 34
+Ipswich Town	24,47 18 34
+Itagüí Leones FC	23,61 18 30
+Jagiellonia Białystok	25,37 17 38
+Jaguares de Córdoba	27,32 21 40
+Jeju United FC	27,29 21 34
+Jeonbuk Hyundai Motors	27,57 19 39
+Jeonnam Dragons	26,36 20 34
+Jiangsu Suning FC	24,93 20 34
+Junior FC	26,18 19 35
+Juventus	27,16 18 37
+Júbilo Iwata	27,57 19 40
+KAA Gent	23,82 17 31
+KAS Eupen	25,18 18 37
+KFC Uerdingen 05	26,07 19 31
+KRC Genk	22,8 18 33
+KSV Cercle Brugge	24,54 18 36
+KV Kortrijk	25,64 18 33
+KV Oostende	23,62 18 33
+Kaizer Chiefs	26,3 18 32
+Kalmar FF	24,59 18 33
+Karlsruher SC	24,68 18 35
+Kashima Antlers	26 18 39
+Kashiwa Reysol	25,39 19 35
+Kasimpaşa SK	25 19 32
+Kawasaki Frontale	26,63 19 37
+Kayserispor	27 16 35
+Kilmarnock	24,25 17 34
+Korona Kielce	24,3 18 32
+Kristiansund BK	25,71 18 37
+LA Galaxy	27,16 20 37
+LASK Linz	24,25 18 36
+LOSC Lille	22 18 29
+La Berrichonne de Châteauroux	25,92 20 37
+La Equidad	26,57 19 35
+Lazio	25,31 18 35
+Le Havre AC	23,83 17 35
+Lecce	26,62 18 35
+Lech Poznań	26,07 18 34
+Lechia Gdańsk	24,89 17 34
+Leeds United	23,2 17 33
+Legia Warszawa	27,37 18 38
+Leicester City	25,56 19 34
+Levante UD	24,62 20 34
+Lillestrøm SK	24,46 17 40
+Limerick FC	22,95 17 31
+Lincoln City	25,36 17 35
+Liverpool	24 17 32
+Livingston FC	24,18 18 35
+Livorno	26,23 18 39
+Lobos BUAP	27 20 36
+Lokomotiv Moscow	27,07 18 34
+Los Angeles FC	25,84 20 34
+Luton Town	24,32 18 34
+MKE Ankaragücü	28,59 20 36
+MSV Duisburg	24,88 18 35
+Macclesfield Town	25,46 19 37
+Malmö FF	25,41 18 35
+Manchester City	23,91 17 35
+Manchester United	24,76 17 35
+Mansfield Town	24,46 17 36
+Medipol Başakşehir FK	27,46 18 37
+Melbourne City FC	25,36 18 37
+Melbourne Victory	25,57 18 33
+Middlesbrough	25,5 17 39
+Miedź Legnica	26,89 17 37
+Milan	25 18 35
+Millonarios FC	26,57 18 34
+Millwall	24,7 18 34
+Milton Keynes Dons	24,64 17 34
+Minnesota United FC	26,53 19 34
+Molde FK	23,77 17 35
+Monarcas Morelia	25 18 36
+Monterrey	24,69 17 34
+Montpellier HSC	24,75 18 40
+Montreal Impact	26,14 19 36
+Morecambe	25,07 18 39
+Moreirense FC	25,48 18 34
+Motherwell	24,04 17 31
+Málaga CF	25,33 17 34
+NAC Breda	23,3 18 35
+Nagoya Grampus	26,59 18 42
+Napoli	25,92 20 32
+Neuchâtel Xamax	27,22 19 36
+New England Revolution	25 17 33
+New York City FC	25,38 17 36
+New York Red Bulls	23,66 18 34
+Newcastle Jets	25,38 17 35
+Newcastle United	24,55 17 32
+Newell's Old Boys	26,07 19 36
+Newport County	24,65 17 37
+Northampton Town	23,71 17 32
+Norwich City	24,87 18 33
+Nottingham Forest	26,63 17 35
+Notts County	25,71 17 35
+Nîmes Olympique	24,74 19 35
+OGC Nice	22,82 17 34
+Odds BK	23,96 16 34
+Odense Boldklub	24,37 17 33
+Ohod Club	26,12 19 41
+Oldham Athletic	24 17 36
+Olympiacos CFP	24,64 19 33
+Olympique Lyonnais	22,79 17 34
+Olympique de Marseille	25,62 18 35
+Once Caldas	25,86 18 37
+Orlando City SC	25,9 19 32
+Orlando Pirates	26,93 16 34
+Os Belenenses	26 19 34
+Oxford United	24,68 18 37
+PAOK	26,96 18 33
+PEC Zwolle	23,37 17 37
+PFC CSKA Moscow	22,68 19 32
+PSV	22,37 18 29
+Pachuca	24,83 18 45
+Padova	25,8 19 37
+Palermo	24,57 18 37
+Panathinaikos FC	23,07 17 30
+Paraná	31,6 26 34
+Paris FC	25,92 18 35
+Paris Saint-Germain	24,57 17 40
+Parma	27,69 19 37
+Patriotas Boyacá FC	26,07 20 37
+Patronato	27,75 20 40
+Perth Glory	27,24 16 36
+Perugia	23,27 17 31
+Pescara	25,07 18 38
+Peterborough United	24 17 41
+Philadelphia Union	25,24 18 33
+Piast Gliwice	25,19 18 37
+Plymouth Argyle	25,29 18 34
+Pogoń Szczecin	24,81 17 36
+Pohang Steelers	25,07 19 35
+Port Vale	25,96 18 35
+Portimonense SC	23,89 20 32
+Portland Timbers	26,23 19 33
+Portsmouth	23,5 17 30
+Preston North End	23,48 17 33
+Puebla FC	25,93 19 35
+Queens Park Rangers	24,6 19 35
+Querétaro	24,93 17 33
+RB Leipzig	22,18 18 29
+RC Celta	23,67 18 32
+RC Strasbourg Alsace	24,75 18 35
+RCD Espanyol	25,03 18 36
+RCD Mallorca	25,75 17 36
+RSC Anderlecht	23,43 16 31
+Racing Club	26,11 18 35
+Racing Club de Lens	23,73 18 34
+Randers FC	23,84 17 36
+Rangers FC	25,04 18 38
+Ranheim Fotball	24,54 19 38
+Rayo Vallecano	24,73 17 36
+Reading	25,73 17 37
+Real Betis	25,37 17 36
+Real Madrid	24,03 17 32
+Real Oviedo	25,7 19 35
+Real Salt Lake	26,17 19 39
+Real Sociedad	23,35 18 34
+Real Sporting de Gijón	24,3 16 32
+Real Valladolid CF	24,83 18 37
+Real Zaragoza	24,43 19 33
+Red Star FC	25,5 17 38
+Rio Ave FC	23,96 20 34
+Rionegro Águilas	26,32 20 33
+River Plate	25,92 18 36
+Rochdale	24,93 16 38
+Roma	25,65 18 34
+Rosario Central	25,39 19 34
+Rosenborg BK	24,58 16 32
+Rotherham United	24,38 18 33
+Royal Antwerp FC	26 20 34
+Royal Excel Mouscron	23,93 19 35
+SC Braga	25,04 20 31
+SC Fortuna Köln	25,69 19 34
+SC Freiburg	24,23 19 31
+SC Heerenveen	22,81 17 34
+SC Paderborn 07	23,87 18 36
+SC Preußen Münster	23,41 18 31
+SCR Altach	25,77 18 37
+SD Eibar	26,31 19 34
+SD Huesca	25,63 17 37
+SG Dynamo Dresden	23,79 17 31
+SG Sonnenhof Großaspach	24,33 19 32
+SK Brann	25,22 17 36
+SK Rapid Wien	23,7 19 31
+SK Slavia Praha	25,39 18 32
+SK Sturm Graz	23,92 17 30
+SKN St. Pölten	24,37 18 33
+SL Benfica	24,5 18 34
+SPAL	26,41 20 36
+SSV Jahn Regensburg	25,66 19 33
+SV Darmstadt 98	25,44 17 32
+SV Mattersburg	25,81 18 32
+SV Meppen	25,36 18 32
+SV Sandhausen	26,17 22 35
+SV Wehen Wiesbaden	25 20 36
+SV Werder Bremen	25 18 39
+SV Zulte-Waregem	25,81 17 37
+Sagan Tosu	27,27 19 34
+Sampdoria	24,78 18 35
+San Jose Earthquakes	25,77 20 35
+San Lorenzo de Almagro	25,25 19 38
+San Luis de Quillota	24,93 17 36
+San Martin de Tucumán	26,5 20 37
+San Martín de San Juan	27,79 18 37
+Sandefjord Fotball	24,83 17 34
+Sanfrecce Hiroshima	27 18 35
+Sangju Sangmu FC	26,04 23 29
+Santa Clara	26,65 21 37
+Santos	29,6 26 34
+Santos Laguna	25,35 19 33
+Sarpsborg 08 FF	24,77 16 32
+Sassuolo	24,74 18 37
+Scunthorpe United	23,52 17 36
+Seattle Sounders FC	26,37 19 33
+Sevilla FC	25,27 18 32
+Shakhtar Donetsk	25,21 17 34
+Shamrock Rovers	23,59 17 36
+Shandong Luneng TaiShan FC	26,85 21 33
+Shanghai Greenland Shenhua FC	27,57 17 35
+Shanghai SIPG FC	24,68 19 31
+Sheffield United	25,6 17 33
+Sheffield Wednesday	26,17 19 33
+Shimizu S-Pulse	26,4 18 37
+Shonan Bellmare	25,6 19 38
+Shrewsbury	23,56 16 33
+Sint-Truidense VV	24,29 17 32
+Sivasspor	26,33 18 34
+Sligo Rovers	22,16 17 36
+Southampton	23,73 17 33
+Southend United	24,71 18 34
+SpVgg Greuther Fürth	23,43 18 34
+SpVgg Unterhaching	24,12 18 39
+Sparta Praha	25,64 18 37
+Spartak Moscow	26,04 19 34
+Spezia	25 19 34
+Sport Club do Recife	30,2 26 34
+Sporting CP	26,13 19 34
+Sporting Kansas City	26,26 18 33
+Sporting Lokeren	25,14 17 37
+Sporting de Charleroi	25,04 16 37
+St. Johnstone FC	24,78 18 32
+St. Mirren	24,67 17 33
+St. Patrick's Athletic	25,09 17 34
+Stabæk Fotball	22,07 17 31
+Stade Brestois 29	25,2 19 31
+Stade Malherbe Caen	25,21 19 31
+Stade Rennais FC	24,56 19 32
+Stade de Reims	24,55 18 34
+Standard de Liège	24,93 18 39
+Stevenage	24,04 16 35
+Stoke City	26,23 18 37
+Strømsgodset IF	24,75 17 33
+Sunderland	24,39 16 34
+Suwon Samsung Bluewings	27,21 18 36
+Swansea City	24,1 18 33
+Swindon Town	24,12 18 36
+Sydney FC	24,64 16 34
+SønderjyskE	25,26 17 35
+TSG 1899 Hoffenheim	23,7 18 34
+TSV 1860 München	24,71 19 33
+TSV Hartberg	23,62 17 31
+Tianjin Quanjian FC	26,08 20 37
+Tianjin TEDA FC	26 20 36
+Tiburones Rojos de Veracruz	26,52 18 36
+Tigres U.A.N.L.	25,33 19 32
+Torino	25,35 17 37
+Toronto FC	25,89 17 34
+Tottenham Hotspur	24,61 17 34
+Toulouse Football Club	23,65 16 33
+Trabzonspor	26,25 19 34
+Tranmere Rovers	24,39 16 34
+Trelleborgs FF	24,26 18 37
+Tromsø IL	23,8 17 36
+U.N.A.M.	24 18 34
+UD Almería	24,97 20 34
+UD Las Palmas	27,55 20 37
+US Cremonese	27,28 18 35
+US Orléans Loiret Football	25,48 19 35
+US Salernitana 1919	26,18 18 34
+Udinese	23,57 19 33
+Ulsan Hyundai FC	26,96 19 38
+Universidad Católica	23,96 17 33
+Universidad de Chile	26,82 19 38
+Unión Española	23,71 17 31
+Unión La Calera	26,11 18 36
+Unión de Santa Fe	24,39 18 39
+Urawa Red Diamonds	27,81 18 36
+V-Varen Nagasaki	26,57 17 34
+VVV-Venlo	23,65 16 34
+Valencia CF	23,06 17 31
+Valenciennes FC	25 18 37
+Vancouver Whitecaps FC	26,11 17 33
+Vegalta Sendai	27,15 19 36
+Vejle Boldklub	22,19 16 29
+Vendsyssel FF	24,19 18 32
+Venezia FC	26,39 17 38
+VfB Stuttgart	24,52 17 32
+VfL Bochum 1848	25,35 19 33
+VfL Osnabrück	23,96 18 32
+VfL Sportfreunde Lotte	23,89 19 30
+VfL Wolfsburg	24,38 18 34
+VfR Aalen	23,67 18 33
+Viktoria Plzeň	27,96 20 35
+Villarreal CF	26,59 19 37
+Vissel Kobe	27,27 19 36
+Vitesse	24,46 17 35
+Vitória	30 26 34
+Vitória Guimarães	24,57 19 35
+Vitória de Setúbal	25,39 18 33
+Vålerenga Fotball	23,19 17 33
+Vélez Sarsfield	23,21 17 39
+Waasland-Beveren	22,5 19 29
+Walsall	23,81 17 37
+Waterford FC	23,88 18 33
+Watford	25,48 18 37
+Wellington Phoenix	25,38 16 36
+West Bromwich Albion	25,8 17 37
+West Ham United	25,44 18 33
+Western Sydney Wanderers	24,08 17 32
+Wigan Athletic	24,53 17 34
+Willem II	22,68 18 31
+Wisła Kraków	24,5 16 38
+Wisła Płock	24,12 17 34
+Wolfsberger AC	24,62 16 33
+Wolverhampton Wanderers	22,85 17 31
+Wycombe Wanderers	27,4 19 36
+Yeni Malatyaspor	25,87 18 33
+Yeovil Town	24,25 17 40
+Yokohama F. Marinos	25,03 17 40
+Zagłębie Lubin	25,7 19 35
+Zagłębie Sosnowiec	26,24 18 36
+Çaykur Rizespor	25,43 19 34
+Örebro SK	24,04 16 34
+Östersunds FK	23,86 19 31
+Śląsk Wrocław	25,96 16 35

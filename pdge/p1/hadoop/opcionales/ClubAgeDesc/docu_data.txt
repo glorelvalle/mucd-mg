@@ -1,8 +1,0 @@
-https://www.kaggle.com/karangadiya/fifa19/version/4
-
-bin/hdfs dfs -put /home/bigdata/clubdata.csv /user/bigdata/
-
-cp /home/bigdata/ClubAge.java /opt/hadoop/
-./compilar.bash ClubAge
-
-bin/hadoop jar ClubAge.jar uam.ClubAge /user/bigdata/clubdata.csv /user/bigdata/salida_ClubAge/

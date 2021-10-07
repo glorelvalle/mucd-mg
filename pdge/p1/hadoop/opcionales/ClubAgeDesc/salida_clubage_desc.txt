@@ -1,0 +1,4 @@
+x-special/nautilus-clipboard
+copy
+file:///home/maria/Escritorio/PDGE/p1/opcional/AgeMean/origen_data.txt
+

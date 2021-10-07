@@ -1,0 +1,9 @@
+Avila	0,96
+Burgos	0,76
+Le�n	0,89
+Palencia	1,13
+Salamanca	1,32
+Segovia	0,92
+Soria	0,35
+Valladolid	0,51
+Zamora	0,8

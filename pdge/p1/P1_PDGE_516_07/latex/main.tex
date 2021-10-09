@@ -169,7 +169,7 @@ ssh-copy-id localhost
 
 Finalmente se configura Hadoop HDFS modificando los ficheros \texttt{ /opt/hadoop/etc/hadoop/core-site.xml} y \texttt{ /opt/hadoop/etc/hadoop/hdfs-site.xml}.
 
-En este momento ya podemos iniciar Hadoop \textit{Pseudo-Distributed} mediante el comando
+En este momento ya podemos iniciar Hadoop \textit{pseudo-distributed} mediante el comando
 \begin{lstlisting}[language=Bash, caption=]
 sbin/start-dfs.sh
 \end{lstlisting}
@@ -177,11 +177,11 @@ en la ruta \texttt{/opt/hadoop/}.
 Desde Hadoop creamos un directorio en el sistema de archivos distribuidos HDFS donde alojaremos nuestros conjuntos de datos:
   \begin{lstlisting}[language=, caption=]
 hadoop/hdfs dfs -mkdir /user/bigdata/
-  \end{lstlisting}
+\end{lstlisting}
 
 Y utilizando el comando de HDFS \texttt{-copyFromLocal} copiamos en el directorio anterior los conjuntos de datos que queramos utilizar en la práctica. 
 
-Por otro lado creamos un script \texttt{compilar.bash} que compila un programa y obtiene un ejecutable \texttt{.jar} con un nombre pasado como argumento.
+Por otro lado creamos un script \textbf{compilar.bash} (adjuntado en la entrega) que compila un programa y obtiene un ejecutable \texttt{.jar} con un nombre pasado como argumento.
 \begin{lstlisting}
 #!/bin/bash
 
@@ -211,15 +211,17 @@ bin/hadoop <name>.jar <class_name> /user/bigdata/<input_file> <output_dir>
 
 Para activar la configuración del HDFS ha sido necesario modificar los ficheros \texttt{core-site.xml} y \texttt{hdfs-site.xml}.
 
-En cuanto a la configuración del directorio HDFS por defecto en localhost es necesario modificar la propiedad \texttt{fs.defaultFS} del fichero \texttt{core-site.xml} y darle el valor \texttt{hdfs://localhost:9000}.
+Para configurar el directorio HDFS por defecto en localhost es necesario modificar la propiedad \texttt{fs.defaultFS} del fichero \texttt{core-site.xml} y darle el valor \texttt{hdfs://localhost:9000}.
 
 Finalmente, para la configuración del factor de replicación del sistema de ficheros se modifica la propiedad \texttt{dfs.replication} del fichero \texttt{hdfs-site.xml} con un valor de 1, ya que estamos en una única máquina.
 
 \vspace{0.8em}
 
-\textbf{1.2: Para pasar a la ejecución de Hadoop sin HDFS ¿ es suficiente con con parar el servicio con stop-dfs.sh? ¿Cómo se consigue?}
+\textbf{1.2: Para pasar a la ejecución de HDFS ¿es suficiente con con parar el servicio con stop-dfs.sh? ¿Cómo se consigue?}
 
-No necesariamente. Para ejecutar Hadoop sin HDFS habría que parar el servicio \texttt{stop-dfs.sh} y en caso de que también estén activos los demonios Yarn, también habría que  pararlo ejecutando \texttt{stop-yarn.sh}.
+No es suficiente, ya que es necesario parar el resto de demonios activos. En concreto con \texttt{stop-yarn.sh}, si bien la mejor manera de parar todos los servicios es con \texttt{stop-all.sh}, asegurándonos de que cada proceso lanzado previamente se termina.
+
+%\colorbox{yellow}{No necesariamente. Para ejecutar Hadoop sin HDFS habría que parar el servicio \texttt{stop-dfs.sh} \\ y en caso de que también estén activos los demonios Yarn, también habría que  pararlo ejecutando \\ \texttt{stop-yarn.sh}. No se si hay \\ que hablar también de que hay que borrar el contenido de los ficheros hdfs-site y core-hdfs. No tengo ni idea!!!!!}
 
 
 \section{Programación de aplicaciones Hadoop con Java}
@@ -228,7 +230,7 @@ No necesariamente. Para ejecutar Hadoop sin HDFS habría que parar el servicio \
 
 \textbf{2.1. ¿Dónde se crea HDFS? ¿Cómo se puede decidir su localización?}
 
-La localización de HDFS se define en la propiedad \texttt{dfs.datanode.data.dir} del fichero \texttt{hdfs-site.xml}. Por defecto, el valor es \texttt{file://\$\{hadoop.tmp.dir\}/dfs/data}. En particular, la variable \texttt{\$\{hadoop.tmp.dir\}} se puede modificar en el archivo \texttt{core-site.xml} y su valor por defecto es \texttt{tmp/hadoop-\$\{user.name\}}. En la práctica se ha utilizado el usuario root, luego la propiedad \texttt{dfs.datanode.data.dir} tiene el valor \texttt{/tmp/hadoop-root/dfs/data/}.
+La localización de HDFS se define en la propiedad \texttt{dfs.datanode.data.dir} del fichero \texttt{hdfs-site.xml}. Por defecto, el valor es \texttt{file://\$\{hadoop.tmp.dir\}/dfs/data}. En particular, la variable \texttt{\$\{hadoop.tmp.dir\}} se puede modificar en el archivo \texttt{core-site.xml} y su valor por defecto es \texttt{tmp/hadoop-\$\{user.name\}}. En la práctica se ha utilizado el usuario root, luego la propiedad \texttt{dfs.datanode.data.dir} tiene el valor \\ \texttt{/tmp/hadoop-root/dfs/data/}.
 \vspace{0.8em}
 
 \textbf{2.2. ¿Cómo se puede borrar todo el contenido del HDFS, incluido su estructura?}
@@ -241,20 +243,20 @@ $ hadoop namenode -format
 
 \vspace{0.8em}
 
-\textbf{2.2. Si estás utilizando HDFS ¿Cómo puedes volver a ejecutar \texttt{WordCount} como si fuese single.node?}
+\textbf{2.2. Si estás utilizando HDFS ¿Cómo puedes volver a ejecutar WordCount como si fuese single.node?}
  
 Para ejecutar \texttt{WordCount} como si fuese \texttt{single.node} se debe eliminar la propiedad \texttt{fs.defaultFS} del fichero \texttt{core-site.xml} así como la propiedad \texttt{dfs.replication} del archivo \texttt{hdfs-site.xml}.
 
 
-\textbf{En el fragmento del Quijote y probando con la aplicación \texttt{WordCount} desarrollada:}
+\textbf{En el fragmento del Quijote y probando con la aplicación WordCount desarrollada:}
 
-El código relativo a la aplicación \texttt{WordCount} se encuentra en \texttt{WordCount/}, donde se encuentra disponible tanto el código Java \texttt{WordCount.java} como las salidas devueltas por la aplicación implementada (\texttt{salida\_quijote\_my.txt}) y la salida devuelta por la aplicación de ejemplo (\texttt{salida\_quijote\_ejemplo.txt}). También se entregan los ficheros \texttt{quijote.txt} y \texttt{quijotex15.txt}.
+El código relativo a la aplicación \texttt{WordCount} se encuentra en el directorio de la entrega \textbf{WordCount/}, y se encuentra disponible tanto el código Java \textbf{WordCount.java} como las salidas devueltas por la aplicación implementada (\textbf{salida\_quijote\_my.txt}) y la salida devuelta por la aplicación de ejemplo (\textbf{salida\_quijote\_ejemplo.txt}). También se entregan los ficheros \textbf{quijote.txt} y \textbf{quijotex15.txt}.
 
 \vspace{0.8em}
 
 \textbf{2.4. ¿Cuál son las 10 palabras más utilizadas?}
 
-Para encontrar las palabras más utilizadas se ha utilizado la librería pandas de Python para crear un dataframe con los datos devueltos por Hadoop.
+Para encontrar las palabras más utilizadas se ha utilizado la librería pandas de Python para crear un dataframe con los datos devueltos por Hadoop. Se adjunta en la entrega un archivo Jupyter con las operaciones realizadas (\textbf{evidencias.ipynb})
 
 \begin{lstlisting}[language=Python, caption=]
 quijote_mywc = pd.read_csv('salidas/salida_quijote_my.txt',sep='\t', header=None,quotechar="'", names=['Word', 'Count'])
@@ -272,13 +274,13 @@ La salida devolvía las siguientes 10 palabras más utilizadas: que (3055), de (
      \begin{lstlisting}[language=Python, caption=]
 dijo = quijote_mywc[quijote_mywc['Word'] == 'dijo']
 dijo
-     \end{lstlisting}
+\end{lstlisting}
      La palabra ``dijo'' aparece 272 veces.\newline
  \end{itemize}
  
 \vspace{0.8em}
 
-\textbf{2.6. El resultado coincide utilizando la aplicación \texttt{WordCount}
+\textbf{2.6. El resultado coincide utilizando la aplicación WordCount
  que se da en los ejemplos. Justifique la respuesta.}
 
 El resultado no coincide porque la aplicación \texttt{WordCount} de los ejemplos es case sensitive y le afectan los caracteres no alfabéticos. 
@@ -293,7 +295,7 @@ Al contar el número de veces que aparecen las palabras ``el'' y ``dijo'' obtene
 
 \section{Modificación de parámetros MapReduce}
 
-\textbf{3.1. Comprobar el efecto del tamaño de bloques en el funcionamiento de la aplicación \texttt{WordCount}. ¿Cuántos procesos Maps se lanzan en cada caso? Indique como lo ha comprobado}
+\textbf{3.1. Comprobar el efecto del tamaño de bloques en el funcionamiento de la aplicación WordCount. ¿Cuántos procesos Maps se lanzan en cada caso? Indique como lo ha comprobado}
 
 Tras aumentar el tamaño del fichero \texttt{quijote.txt} a $5081904$ bytes (\texttt{quijotex15.txt}) y utilizar un tamaño de bloque de HDFS igual a $2097152$ bytes, se han lanzado un total de 3 procesos Map en la ejecución de la aplicación \texttt{WordCount}. Esto se puede comprobar en la línea \texttt{Shuffled Maps = 3} de la Figura \ref{fig:my_label}. De hecho, puede comprobarse que
 \begin{equation*}
@@ -314,6 +316,9 @@ luego se necesitan 3 procesos Map.
 \section{Ejemplos de operaciones con RDDs de Spark}
 
 \textbf{Pregunta TS1.1 ¿Cómo hacer para obtener una lista de los elementos al cuadrado?}
+
+Simplemente hay que mapear cada uno de los elementos del RDD ejecutando la función lambda correspondiente.
+
 \begin{lstlisting}[language=Python, caption=]
 array = sc.parallelize([1,2,3,4,5,6,7,8,9,10], 2)
 rdd = pnumeros.map(lambda e: e*e)
@@ -326,6 +331,8 @@ print(rdd.collect())
 \vspace{0.8em}
 
 \textbf{Pregunta TS1.2 ¿Cómo filtrar los impares?}
+
+Con la operación \texttt{filter} podemos filtrar a través de la función deseada, en este caso \texttt{e\%2==1}.
 \begin{lstlisting}[language=Python, caption=]
 rddi = numeros.filter (lambda e: e%2==1)
 print (rddi.collect())
@@ -355,6 +362,8 @@ No tiene sentido ya que \texttt{reduce} es una función monoidal que asume que l
 
 \textbf{Pregunta TS1.4 ¿Cómo lo ordenarías para que primero aparezcan los impares y luego los pares?}
 
+Partiendo de las operaciones anteriores podemos filtrar los impares y los pares y con una simple \texttt{union} podemos devolverlo en un RDD único.
+
 \begin{lstlisting}[language=Python, caption=]
 numeros = sc.parallelize([5,3,2,1,4])
 rdd = numeros.filter(lambda e: e%2==1).union(numeros.filter(lambda e: e%2==0))
@@ -370,7 +379,7 @@ rdd.collect()
 
 Para cada ejemplo se incluye en la salida el número de elementos para cada RDD:
 
-\begin{lstlisting}[language=Python, caption=]
+\begin{lstlisting}[language=Python, caption=Ejemplo 1 TS1.5]
 palabras = sc.parallelize(['HOLA', 'Que', 'TAL', 'Bien'])
 pal_minus = palabras.map(lambda elemento: elemento.lower())
 print (pal_minus.collect())
@@ -382,7 +391,7 @@ print ("RDD size: ", pal_minus.count())
     RDD size:  4
 \end{verbatim}
 
-\begin{lstlisting}[language=Python, caption=]
+\begin{lstlisting}[language=Python, caption=Ejemplo 2 TS1.5]
 palabras = sc.parallelize(['HOLA', 'Que', 'TAL', 'Bien'])
 pal_long = palabras.map(lambda elemento: len(elemento))
 print (pal_long.collect())
@@ -394,7 +403,7 @@ print ("RDD size: ", pal_long.count())
     RDD size:  2
 \end{verbatim}
 
-\begin{lstlisting}[language=Python, caption=]
+\begin{lstlisting}[language=Python, caption=Ejemplo 3 TS1.5]
 log = sc.parallelize(['E: e21', 'W: w12', 'W: w13', 'E: e45'])
 errors = log.filter(lambda elemento: elemento[0]=='E')
 print (errors.collect())
@@ -406,7 +415,7 @@ print ("RDD size: ", errors.count())
     RDD size:  2
 \end{verbatim}
 
-\begin{lstlisting}[language=Python, caption=]
+\begin{lstlisting}[language=Python, caption=Ejemplo 4 TS1.5]
 lineas = sc.parallelize(['', 'a', 'a b', 'a b c'])
 palabras = lineas.flatMap(lambda elemento: elemento.split())
 print (palabras.collect())
@@ -418,7 +427,7 @@ print ("RDD size: ", palabras.count())
     RDD size:  6
 \end{verbatim}
 
-\begin{lstlisting}[language=Python, caption=]
+\begin{lstlisting}[language=Python, caption=Ejemplo 5 TS1.5]
 lineas = sc.parallelize(['', 'a', 'a b', 'a b c'])
 palabras_flat = lineas.flatMap(lambda elemento: elemento.split())
 palabras_map = lineas.map(lambda elemento: elemento.split())
@@ -448,6 +457,9 @@ Por su parte, \texttt{palabras\_map} tiene el primer elemento vacío porque apli
 \vspace{0.8em}
 
 \textbf{Pregunta TS1.7. Prueba la transformación distinct si lo aplicamos a cadenas.}
+
+Se puede comprobar que \texttt{distinct} devuelve los elementos únicos de la entrada de partida.
+
 \begin{lstlisting}[language=Python, caption=]
 log = sc.parallelize(['E: e21', 'I: i11', 'W: w12', 'I: i11', 'W: w13', 'E: e45'])
 infos = log.distinct()
@@ -461,6 +473,8 @@ print (infos.collect())
 
 \textbf{Pregunta TS1.8 ¿Cómo se podría obtener la misma salida pero utilizando una sola transformación y sin realizar la unión?}
 
+Dado el código de partida siguiente:
+
 \begin{lstlisting}[language=Python, caption=]
 log = sc.parallelize(['E: e21', 'I: i11', 'W: w12', 'I: i11', 'W: w13', 'E: e45'])
 infos = log.filter(lambda elemento: elemento[0]=='I')
@@ -471,6 +485,9 @@ print (inferr.collect())
 \begin{verbatim}
     ['I: i11', 'I: i11', 'E: e21', 'E: e45']
 \end{verbatim}
+
+Se puede modificar la función lambda para que filtre para ambos caracteres de la siguiente manera:
+
 \begin{lstlisting}[language=Python, caption=]
 log = sc.parallelize(['E: e21', 'I: i11', 'W: w12', 'I: i11', 'W: w13', 'E: e45'])
 infos = log.filter(lambda elemento: (elemento[0]=='I' or elemento[0]== 'E'))
@@ -480,13 +497,15 @@ print (infos.collect())
     ['E: e21', 'I: i11', 'I: i11', 'E: e45']
 \end{verbatim}
 
+De esta manera obtenemos el mismo resultado final.
+
 \vspace{0.8em}
 
 \textbf{Pregunta TS1.9 ¿Cómo explica el funcionamiento de las celdas anteriores?}
 
-\colorbox{yellow}{A qué celdas se refiereeee??? xddd}
+%\colorbox{yellow}{A qué celdas se refiereeee??? xddd}
 
-\begin{lstlisting}
+\begin{lstlisting}[language=Python, caption=]
 r = sc.parallelize([('A', 1),('C', 4),('A', 1),('B', 1),('B', 4)])
 rr1 = r.reduceByKey(lambda v1,v2:v1+v2)
 print (rr1.collect())
@@ -630,7 +649,7 @@ quijote.reduce(count_chars)
 
 Las operaciones \textit{key-value} con RDDs son un tipo especial de RDDs donde cada elemento es una tupla clave (K) valor (V). 
 
-En esta parte se utiliza el fichero \texttt{quijote.txt} original y se descarga otro que es más largo. Las palabras filtran y se guardan en \texttt{allWords} (56521 palabras) y \texttt{allWords2} (197777 palabras) respectivamente.
+En esta parte se utiliza el fichero \texttt{quijote.txt} original y se descarga otro que es más largo. Las palabras se filtran y se guardan en \texttt{allWords} (56521 palabras) y \texttt{allWords2} (197777 palabras) respectivamente.
 
 \begin{lstlisting}[language=Python, caption=]
 words = allWords.map(lambda e: (e,1))
@@ -671,7 +690,7 @@ frequencies.takeOrdered(10, key=lambda a: -a[1])
  ('los', 696)]
 \end{verbatim}
 
-En este ejemplo se ha hecho uso de \texttt{reduceByKey}, operación que combina los valores de cada clave utilizando \texttt{reduce} asociativo y conmutativo. De esta manera, se cuenta con una lambda de suma la frecuencia de cada una de las palabras almacenándolo en una tupla \textit{K-V}, mostrándolo en orden descendente. 
+En este ejemplo se ha hecho uso de \texttt{reduceByKey}, operación que combina los valores de cada clave utilizando \texttt{reduce} asociativo y conmutativo. De esta manera, se cuenta con una lambda que suma la frecuencia de cada una de las palabras almacenándolo en una tupla \textit{K-V}, mostrándolo en orden descendente. 
 
 
 %La salida se dividirá con las particiones numPartitions, o el nivel de paralelismo por defecto si no se especifica numPartitions. El particionador por defecto es hash-partición.
@@ -793,19 +812,93 @@ result.takeOrdered(10, lambda v: -v[1]), result.takeOrdered(10, lambda v: +v[1])
 Es más eficiente la segunda celda ya que al guardar los resultados en cache, se acelera el proceso de acceder a los datos al realizar la operación \texttt{takeOrdered}.
 \vspace{0.8em}
 
-\textbf{Pregunta TS2.6 Antes de guardar el fichero, utilice coalesce con diferente valores ¿Cuál es la diferencia?}
+\textbf{Pregunta TS2.6 Antes de guardar el fichero, utilice coalesce con diferentes valores ¿Cuál es la diferencia?}
 
-El algoritmo de repartición se usa para aumentar o disminuir las particiones RDD, mientras que coalesce evita el movimiento de datos tratando de equilibrar los datos dentro de cada máquina.
+Para poder explicar esta pregunta debemos primer tener clara la diferencia entre \texttt{coalesce} y \texttt{repartition}:
 
+\begin{itemize}
+    \item \texttt{coalesce}: se utiliza para reducir el número de particiones, tratando de minimizar el movimiento de datos evitando la red aleatoria. De esta manera, crea particiones de tamaño desigual.
+    \item \texttt{repartition}: se utiliza para reducir o disminuir el número de particiones, activando una red aleatoria que puede aumentar el movimiento de datos. De esta manera, crea particiones de igual tamaño.
+\end{itemize}
+
+
+En local las particiones son equivalentes, pero en un cluster son distintas, obteniendo un fichero por cada partición.
+
+Probando con diferentes particiones:
+
+\begin{lstlisting}[language=Python, caption=]
+rdd = result.repartition(numPartitions=3)
+rdd
+\end{lstlisting}
+
+2 ejecuciones:
+\begin{verbatim}
+MapPartitionsRDD[269] at coalesce at NativeMethodAccessorImpl.java:0
+\end{verbatim}
+
+\begin{verbatim}
+MapPartitionsRDD[274] at coalesce at NativeMethodAccessorImpl.java:0
+\end{verbatim}
+
+\begin{lstlisting}[language=Python, caption=]
+rdd = result.repartition(numPartitions=3)
+rdd.getNumPartitions()
+\end{lstlisting}
+\begin{verbatim}
+3
+\end{verbatim}
+
+\begin{lstlisting}[language=Python, caption=]
+rdd = result.repartition(numPartitions=8)
+rdd.getNumPartitions()
+\end{lstlisting}
+\begin{verbatim}
+8
+\end{verbatim}
+
+
+
+\begin{lstlisting}[language=Python, caption=]
+rdd = result.coalesce(numPartitions=3)
+rdd
+\end{lstlisting}
+2 ejecuciones:
+
+\begin{verbatim}
+CoalescedRDD[279] at coalesce at NativeMethodAccessorImpl.java:0
+\end{verbatim}
+
+\begin{verbatim}
+CoalescedRDD[280] at coalesce at NativeMethodAccessorImpl.java:0
+\end{verbatim}
+
+\begin{lstlisting}[language=Python, caption=]
+rdd = result.coalesce(numPartitions=3)
+rdd.getNumPartitions()
+\end{lstlisting}
+\begin{verbatim}
+2
+\end{verbatim}
+
+\begin{lstlisting}[language=Python, caption=]
+rdd = result.coalesce(numPartitions=8)
+rdd.getNumPartitions()
+\end{lstlisting}
+\begin{verbatim}
+2
+\end{verbatim}
+
+
+%\colorbox{yellow}{El algoritmo de repartición se usa para aumentar o disminuir las particiones RDD, mientras que coalesce evita el movimiento de datos tratando de equilibrar los datos dentro de cada máquina.}
 
 \chapter{Ejercicios opcionales}
 
-Toda la información relativa al código implementado, los conjuntos de datos utilizados y la salida proporcionada por cada aplicación se encuentran en la ruta \texttt{QualityDesc/} y \texttt{ClubAgeDesc/}.
+Toda la información relativa al código implementado, los conjuntos de datos utilizados y la salida proporcionada por cada aplicación se encuentran en los directorios \textbf{QualityDesc/} y \textbf{ClubAgeDesc/} de la entrega.
 
 
 \section{Calidad del aire}
 
-Este ejercicio implementa una aplicación que calcula estadísticas descriptivas de un conjunto de datos de la calidad del aire \url{http://datosabiertos.jcyl.es/web/jcyl/set/es/mediciones/calidad_aire_historico/1284212629698}. En particular, la aplicación devuelve la media, el valor mínimo y el valor máximo de la calidad del aire por provincia de España. Se ha implementado la clase \texttt{QualityDesc} en Java y los métodos \texttt{QualityDescMapper} y \texttt{QualityDescReducer}, disponible en el archivo \texttt{QualityDesc.java} entregado. 
+Este ejercicio implementa una aplicación que calcula estadísticas descriptivas de un conjunto de datos de la calidad del aire \url{http://datosabiertos.jcyl.es/web/jcyl/set/es/mediciones/calidad_aire_historico/1284212629698}. En particular, la aplicación devuelve la media, el valor mínimo y el valor máximo de la calidad del aire por provincia de España. Se ha implementado la clase \texttt{QualityDesc} en Java y los métodos \texttt{QualityDescMapper} y \texttt{QualityDescReducer}, disponible en el archivo \textbf{QualityDesc.java} entregado. 
 \begin{lstlisting}[language=Java, caption=]
 public static class QualityDescMapper extends Mapper<Object, Text, Text, DoubleWritable> {
 
@@ -892,7 +985,7 @@ public static void main(String[] args) throws Exception {
 }
 \end{lstlisting}
 
-Tras compilar la aplicación y ejecutarla en Hadoop para el conjunto de datos proporcionado se ha obtenido la siguiente salida (\texttt{salida\_quality\_desc.txt}):
+Tras compilar la aplicación y ejecutarla en Hadoop para el conjunto de datos proporcionado se ha obtenido la siguiente salida (\textbf{salida\_quality\_desc.txt}):
 \begin{verbatim}
 Avila	0,96 0,1 8,6
 Burgos	0,76 0 8,7
@@ -915,7 +1008,7 @@ df.dropna(inplace=True)
 df.to_csv('clubagedata.csv', sep=',',header=None, index=False)
 \end{lstlisting}
 
-La aplicación devuelve la media, el valor mínimo y el valor máximo de la edades de los jugadores por club. Se ha implementado la clase \texttt{ClubAgeDesc} en Java y los métodos \texttt{ClubAgeDescMapper} y \texttt{ClubAgeDescReducer}, disponible en el archivo \texttt{ClubAgeDesc.java} entregado. 
+La aplicación devuelve la media, el valor mínimo y el valor máximo de la edades de los jugadores por club. Se ha implementado la clase \texttt{ClubAgeDesc} en Java y los métodos \texttt{ClubAgeDescMapper} y \texttt{ClubAgeDescReducer}, disponible en el archivo \textbf{ClubAgeDesc.java} entregado. 
 Se ha modificado el nombre de la clase y el nombre de los métodos y, en particular, para el método Map se han modificado únicamente los índices de interés y el separador.
 \begin{lstlisting}[language=Java, caption=]
 public static class ClubAgeDescMapper extends Mapper<Object, Text, Text, DoubleWritable> {
@@ -940,7 +1033,7 @@ public static class ClubAgeDescMapper extends Mapper<Object, Text, Text, DoubleW
 }
 \end{lstlisting}
 
-La salida devuelta por Hadoop se encuentra en el fichero \texttt{salida\_clubage\_desc.txt} y una muestra de la salida devuelta por Hadoop se muestra a continuación:
+La salida devuelta por Hadoop se encuentra en el fichero \textbf{salida\_clubage\_desc.txt} y una muestra de la salida devuelta por Hadoop se muestra a continuación:
 \begin{verbatim}
 MKE Ankaragücü	28,59 20 36
 MSV Duisburg	24,88 18 35

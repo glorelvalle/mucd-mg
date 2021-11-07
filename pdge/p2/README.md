@@ -6,8 +6,8 @@ _________________________________________________
 
 La práctica consta de dos partes:
 
-* [cuda/](CUDA)
+* [CUDA](cuda/)
 
 (Nota: se encuentra el tutorial junto con los ejercicios del enunciado y aparte las preguntas planteadas para el ejercicio de suma de vectores).
 
-* [computacion\_cuantica/](Computación cuántica)
+* [Computación Cuántica](computacion\_cuantica/)

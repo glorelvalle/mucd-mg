@@ -10,4 +10,4 @@ La práctica consta de dos partes:
 
 (Nota: se encuentra el tutorial junto con los ejercicios del enunciado y aparte las preguntas planteadas para el ejercicio de suma de vectores).
 
-* [computacion_cuantica/](Computación cuántica)
+* [computacion\_cuantica/](Computación cuántica)

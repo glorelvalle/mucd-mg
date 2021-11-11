@@ -1,6 +1,0 @@
-((*- extends 'article.tplx' -*))
-
-((* block packages *))
-((( super() )))
-\usepackage{cancel}
-((* endblock packages *))

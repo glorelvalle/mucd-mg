@@ -1,0 +1,12 @@
+%% Ejercicio 3: representación de señales continuas
+%t=[-5:0.1:5];
+t=linspace(-5,5,101);
+x=sin(pi*t/4);
+figure;
+fig=Figure(t,x, 1);
+function fig = Figure(t,x,op)
+    fig = plot(t,x);
+    title('sin(pi*t/4)')
+    xlabel('Tiempo (Continuo)')
+    ylabel('Valor')
+end

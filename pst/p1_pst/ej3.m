@@ -1,28 +1,27 @@
 %% Ejercicio 3: representación de señales continuas
-%t=[-5:0.1:5];
 t=linspace(-5,5,101);
 x=sin(pi*t/4);
-figure;
-fig=Figure(t,x,1);
+figure(1);
+plot(t,x);
+title('sin(pi*t/4)');
+xlabel('Tiempo (Continuo)')
+ylabel('Valor')
 
 t=[-4:1/8:4];
 x1=sin(pi*t/4);
-fig1=Figure(t,x1,1);
+figure(2);
+plot(t,x1,'r');
+hold on
+stem(t,x1,'r');
+hold off
 x2=cos(pi*t/4);
 hold on
-fig2=Figure(t,x2,2);
+plot(t,x2,'g');
+hold on
+stem(t,x2,'g');
 hold off
 
-function fig = Figure(t,x,op)
-    fig = plot(t,x);
-    hold on
-    fig = stem(t, x);
-    hold off
-    if op == 1
-        title('sin(pi*t/4)');
-    elseif op == 2
-        title('cos(pi*t/4)');
-    end
-    xlabel('Tiempo (Continuo)')
-    ylabel('Valor')
-end
+title('sin(pi*t/4) y cos(pi*t/4)');
+xlabel('Tiempo (Continuo)')
+ylabel('Valor')
+legend('sin(pi*t/4)','','cos(pi*t/4)')

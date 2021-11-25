@@ -3,13 +3,13 @@
 
 %%%%%%%%%% a %%%%%%%%%%
 nx1=[0:9];
-x1=[ones(1,5) zeros(1, 5)]
+x1=[ones(1,5) zeros(1, 5)];
 
-nh1=[0:4]
-h1=[1 -1 3 0 0]
+nh1=[0:4];
+h1=[1 -1 3 0 0];
 
-nh2=[0:4]
-h2=[0 2 5 4 -1]
+nh2=[0:4];
+h2=[0 2 5 4 -1];
 
 figure;
 subplot(2,2,1);
@@ -28,11 +28,11 @@ title('h2');
 xlabel('nh2');
 
 %%%%%%%%%% b %%%%%%%%%%
-c1=conv(h1,x1)
-c2=conv(x1,h1)
-isequal(c1,c2)
+c1=conv(h1,x1);
+c2=conv(x1,h1);
+isequal(c1,c2);
 
-nc=[0:13]
+nc=[0:13];
 
 figure;
 subplot(2,2,1);
@@ -110,21 +110,25 @@ nye1 =[0:13];
 ye2=conv(he2,x1);
 ye3=ye1;
 nye2=[0:15];
-nye3=nye+2;
+nye3=nye1+2;
 
 figure;
-
 subplot(2,2,1);
 stem(nye1,ye1);
-title('ye1[n]=ye2[n]');
+title('ye1[n]');
+xlim([-1 16]);
 
 subplot(2,2,2);
 stem(nye2,ye2);
-title('ye1[n-2]');
+title('ye2[n]');
+xlim([-1 16]);
 
-%subplot(2,2,3);
-%stem(nye3,ye3);
-%title('ye1[n]');
+
+subplot(2,2,3);
+stem(nye3,ye3);
+title('ye1[n-2]');
+xlim([-1 16]);
+
 
 %%%%%%%%%% f %%%%%%%%%%
 %% POR ACABAR

@@ -133,16 +133,46 @@ xlim([-1 16]);
 %%%%%%%%%% f %%%%%%%%%%
 %% POR ACABAR
 
-inter=[0:13];
-
 nw=nx1;
-w=(nx1+1).*x;
-
-
+w=(nx1+1).*x1;
 yf1=conv(w,h1);
 
-nc=[0:4]
-hf1=[1 zeros(1,4)]
+figure;
+subplot(2,3,1);
+stem(nw,w);
+title("w");
+xlim([-1 18]);
+
+
+subplot(2,3,2);
+stem([nx1(1)+nh1(1):nx1(end)+nh1(end)], yf1);
+title("yf1");
+xlim([-1 18]);
+
+
+nu=[0:4];
+u=[1 zeros(1,4)];
+
+nhf1=nu;
+hf1=(nu + 1).*u;
+subplot(2,3,3);
+stem(nhf1,hf1);
+title("hf1");
+xlim([-1 18]);
+
 
 hseries=conv(hf1,h1);
+subplot(2,3,4);
+stem([nhf1(1)+nh1(1):nhf1(end)+nh1(end)],hseries);
+title("hseries");
+xlim([-1 18]);
+
+
+yf2=conv(x1,hseries);
+subplot(2,3,5);
+stem([nhf1(1)+nh1(1)+nx1(1):nhf1(end)+nh1(end)+nx1(end)], yf2);
+title("yf2");
+xlim([-1 18]);
+
+
 %%%%%%%%%% g %%%%%%%%%%

@@ -7,3 +7,4 @@ Asignaturas troncales:
 * [Procesamiento de Datos a Gran Escala](pdge/)
 * [Métodos Avanzados en Aprendizaje Automático](maaa/)
 * [Procesamiento de Señal y Transformadas](pst/)
+* [Gestión de Datos](gd/)

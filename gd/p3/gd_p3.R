@@ -3,6 +3,9 @@ library(qgraph)
 library(gplots)
 library(tidyverse)
 
+# Creación del directorio para guardar las imágenes
+dir.create("img", showWarnings = TRUE, recursive = FALSE, mode = "0777")
+
 # Lectura del dataset de Card Sorting facilitado
 data <- read.csv(url("http://cardsorting.net/tutorials/25.csv"))
 

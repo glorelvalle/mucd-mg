@@ -174,5 +174,24 @@ stem([nhf1(1)+nh1(1)+nx1(1):nhf1(end)+nh1(end)+nx1(end)], yf2);
 title("yf2");
 xlim([-1 18]);
 
-
 %%%%%%%%%% g %%%%%%%%%%
+xg=[2 0 0 0 0];
+nxg=[0:4];
+yga=xg.^2;
+nyga=nxg;
+figure;
+subplot(2,3,1);
+stem(nyga,yga);
+title('yga[n]');
+
+ygb=conv(xg,h2);
+nygb=[0:8];
+subplot(2,3,2);
+stem(nygb,ygb);
+title('ygb[n]');
+
+yg1=[yga 0 0 0 0]+ygb;
+nyg1=[0:8];
+subplot(2,3,3);
+stem(nyg1,yg1);
+title('yg1[n]');

@@ -131,7 +131,6 @@ xlim([-1 16]);
 
 
 %%%%%%%%%% f %%%%%%%%%%
-%% POR ACABAR
 
 nw=nx1;
 w=(nx1+1).*x1;
@@ -174,8 +173,12 @@ stem([nhf1(1)+nh1(1)+nx1(1):nhf1(end)+nh1(end)+nx1(end)], yf2);
 title("yf2");
 xlim([-1 18]);
 
+
+# No sale el mismo resultado, pero no viola la propiedad asociativa ya que el primer sistema no es LTI
+
+
 %%%%%%%%%% g %%%%%%%%%%
-xg=[2 0 0 0 0];
+xg=[2 zeros(1,4)];
 nxg=[0:4];
 yga=xg.^2;
 nyga=nxg;
@@ -183,15 +186,52 @@ figure;
 subplot(2,3,1);
 stem(nyga,yga);
 title('yga[n]');
+xlim([-1 5]);
 
 ygb=conv(xg,h2);
 nygb=[0:8];
 subplot(2,3,2);
 stem(nygb,ygb);
 title('ygb[n]');
+xlim([-1 9]);
 
-yg1=[yga 0 0 0 0]+ygb;
+yg1=[yga zeros(1,4)]+ygb;
 nyg1=[0:8];
 subplot(2,3,3);
 stem(nyg1,yg1);
 title('yg1[n]');
+xlim([-1 9]);
+
+
+u=[1 zeros(1,4)];
+nu=[0:4];
+hg1=u.^2;
+nhg1=nu;
+subplot(2,3,4);
+stem(nhg1,hg1);
+title('hg1[n]');
+xlim([-1 5]);
+
+hparallel=hg1+h2;
+nhparallel=nhg1;
+subplot(2,3,5);
+stem(nhparallel,hparallel);
+title('hparallel[n]');
+xlim([-1 5]);
+
+yg2=conv(xg,hparallel);
+nyg2=[nxg(1)+nhparallel(1):nxg(end)+nhparallel(end)];
+stem(nyg2,yg2);
+title('yg2[n]');
+xlim([-1 9]);
+
+
+
+
+
+
+
+
+
+
+

@@ -3,7 +3,7 @@ library(qgraph)
 library(gplots)
 library(tidyverse)
 
-# Creación del directorio para guardar las imágenes
+# Creación del directorio para guardar las im
 dir.create("img", showWarnings = TRUE, recursive = FALSE, mode = "0777")
 
 # Lectura del dataset de Card Sorting facilitado

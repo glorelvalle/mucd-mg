@@ -174,7 +174,7 @@ title("yf2");
 xlim([-1 18]);
 
 
-# No sale el mismo resultado, pero no viola la propiedad asociativa ya que el primer sistema no es LTI
+% No sale el mismo resultado, pero no viola la propiedad asociativa ya que el primer sistema no es LTI
 
 
 %%%%%%%%%% g %%%%%%%%%%

@@ -17,7 +17,7 @@ def plot_trajectories(t, X,
     M, N = np.shape(X)
     # Plot trajectories 
     M = np.min((M, max_trajectories))
-    fig = plt.figure(fig_num, figsize=fig_size)
+    fig = plt.figure(fig_num)
     fig.clf()
     plt.plot(t, X[:M,:].T, linewidth=1)
     plt.xlabel('t', fontsize=font_size)
@@ -35,7 +35,7 @@ def plot_pdf(X, pdf,
 
 
     # Plot histogram
-    fig = plt.figure(fig_size)
+    fig = plt.figure()
     fig.clf()
     n_bins = np.min((np.int(np.round(np.sqrt(len(X)))), max_bins))
        

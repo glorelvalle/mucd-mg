@@ -17,7 +17,7 @@ def plot_trajectories(t, X,
     M, N = np.shape(X)
     # Plot trajectories 
     M = np.min((M, max_trajectories))
-    fig = plt.figure(fig_num)
+    fig = plt.figure(fig_num, figsize=(12, 8))
     fig.clf()
     plt.plot(t, X[:M,:].T, linewidth=1)
     plt.xlabel('t', fontsize=font_size)
@@ -35,11 +35,11 @@ def plot_pdf(X, pdf,
 
 
     # Plot histogram
-    fig = plt.figure()
+    fig = plt.figure(figsize=(12, 8))
     fig.clf()
     n_bins = np.min((np.int(np.round(np.sqrt(len(X)))), max_bins))
        
-    plt.hist(X, bins=n_bins, density=True)
+    plt.hist(X, bins=n_bins, density=True, color='lightsteelblue')
     plt.xlabel('x', fontsize=font_size)
     plt.ylabel('pdf(x)', fontsize=font_size)
     
@@ -47,5 +47,5 @@ def plot_pdf(X, pdf,
     n_plot = 1000
     x_plot = np.linspace(np.min(X), np.max(X),n_plot)
     y_plot = pdf(x_plot)
-    plt.plot(x_plot, y_plot, linewidth=2, color='r')
+    plt.plot(x_plot, y_plot, linewidth=2, color='indigo')
     

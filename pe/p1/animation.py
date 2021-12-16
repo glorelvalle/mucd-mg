@@ -60,7 +60,7 @@ t, B = simulate_arithmetic_BM(t0, B0, T, mu, sigma, M, N)
 lower, upper = np.min(B), np.max(B)
 fig, ax = plt.subplots(1, 2, figsize=(15,8))
 fig.suptitle(f'Brownian Motion for $\mu = {mu}, \sigma = {sigma}, M = {M}, N = {N}, t_0 = {t0}, B_0 = {B0}, T = {T}$')
-res1, res2 = np.linspace(lower, upper, 15), np.linspace(lower, upper, 100)
+res1, res2 = np.linspace(lower, upper, 30), np.linspace(lower, upper, 100)
 
 # Brownian motion
 gif = animation.FuncAnimation(fig, move_animation, N, fargs=(ax, B, upper, lower, res1, res2))

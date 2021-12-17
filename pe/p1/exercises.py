@@ -160,6 +160,7 @@ def plot_poisson_erlang(lambda_rate, M, N, t0, t1):
         axs[i].set_ylabel('pdf$(s_{' + str(N[i]) + '})$')
         axs[i].set_title(f'Density of {N[i]} arrival')
         axs[i].legend()
+
 def poisson_simulate_n1_n2(lambda_rate1, lambda_rate2, M, t0, t1):
     """ Poisson simulation for N1 and N2 in [t0,t1]
 
@@ -370,4 +371,44 @@ def plot_wiener_emp_theo(empirical, theoretical, t):
     plt.xlabel('t')
     plt.ylabel('$\gamma(W(t)W(0.25))$')
     plt.title('Empirical vs Theoretical Autocovariance')
+    plt.show()
+
+def plot_wiener_simul_pdf(time, example, label, length, B0, mu, sigma):
+    """ Plots Simulation and PDF from given Wiener process
+    
+    Parameters
+    ----------
+    time : numpy.ndarray
+        Regular grid of discretization times
+    example : numpy.ndarray
+        Given Wiener process
+    label : str
+        Wiener process name
+    length : float
+        Length of simulation
+    B0 : float
+        Initial level of the process
+    mu, sigma : float
+        Parameters of the process
+
+    Examples
+    --------
+    >>> from BM_simulators import *
+    >>> mu, sigma, B0, T = 0, 1, 0, 1.
+    >>> rho = 0.5
+    >>> t, W = simulate_arithmetic_BM(t0, B0, T, mu, sigma, M, N)
+    >>> _, W_ = simulate_arithmetic_BM(t0, B0, T, mu, sigma, M, N)
+    >>> A = rho*W + np.sqrt(1 - rho**2)*W_
+    >>> plot_wiener_simul_pdf(t, A, f'$V_1(t)$', T, B0, mu, sigma)
+    """
+    
+    # Simulation plot
+    plot_trajectories(time, example)
+    plt.ylabel(label)
+    plt.show()
+    # PDF plot
+    pdf = lambda f: stats.norm.pdf(f, B0 + mu*length, sigma*np.sqrt(length))
+    plot_pdf(example[:,-1], pdf)
+    plt.ylabel(label)
+    plt.title('PDF')
     plt.show()

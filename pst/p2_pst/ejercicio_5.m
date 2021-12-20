@@ -2,14 +2,30 @@
 
 % a) No entiendo que tengo que concluir
 
-N = 128;
+N = 1024;
 L = 32;
 x = [ones(1,L)];
 n = [0:L-1];
 w0 = 2*pi/sqrt(31);
 e = exp(j*w0*n);
 xe = e.*x;
-[H, W] = dtft(ex, N);
+[H, W] = dtft(xe, N);
+norm_freq = W ./ pi;
+figure;
+plot(norm_freq, abs(H));
+title('Magnitude Response');
+xlabel('Normalized Frequency') ;
+ylabel('|H(w)|');
+
+
+N = 1024;
+L = 1024;
+x = [ones(1,L)];
+n = [0:L-1];
+w0 = 2*pi/sqrt(31);
+e = exp(j*w0*n);
+xe = e.*x;
+[H, W] = dtft(xe, N);
 norm_freq = W ./ pi;
 figure;
 plot(norm_freq, abs(H));
@@ -62,19 +78,19 @@ xlabel('Normalized Frequency') ;
 ylabel('|H(w)|');
 
 subplot(2,2,2);
-plot(norm_freq1, abs(H1));
+plot(norm_freq2, abs(H2));
 title('Magnitude Response L=64');
 xlabel('Normalized Frequency') ;
 ylabel('|H(w)|');
 
 subplot(2,2,3);
-plot(norm_freq1, abs(H1));
+plot(norm_freq3, abs(H3));
 title('Magnitude Response L=128');
 xlabel('Normalized Frequency') ;
 ylabel('|H(w)|');
 
 subplot(2,2,4);
-plot(norm_freq1, abs(H1));
+plot(norm_freq4, abs(H4));
 title('Magnitude Response L=256');
 xlabel('Normalized Frequency') ;
 ylabel('|H(w)|');
@@ -83,17 +99,20 @@ ylabel('|H(w)|');
 % Ventana hanning
 N=1024;
 w0 = 2*pi/sqrt(31);
+L =32;
+n = [0:L-1];
 e=exp(j*w0*n);
 
-L =32;
+
 xh = hann(L)';
-plot_dtft(xh, N)
+plot_dtft(xh, N);
 xhe=xh.*e;
 
-n = [0:L-1];
+
 xw = [ones(1, L)];
-plot_dtft(xw, N)
+plot_dtft(xw, N);
 xwe=xw.*e;
 
-plot_dtft(xhe, N)
-plot_dtft(xwe, N)
+plot_dtft(xhe, N);
+plot_dtft(xwe, N);
+

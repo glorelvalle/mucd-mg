@@ -1,0 +1,5 @@
+Execute this lines in the command pront of anaconda
+
+pip install --target=c:\tensorflow tensorflow
+pip install --target=c:\keras keras 
+set PYTHONPATH=%PYTHONPATH%;C:\tensorflow;C:\keras

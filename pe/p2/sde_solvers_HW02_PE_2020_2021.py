@@ -219,5 +219,21 @@ def euler_jump_diffusion(t0, x0, T, a, b, c,
         Each trajectory is a row vector composed of the
         values of the process at t
     """
+    # Init
+    dT = T / N                                                                      # integration step
+    t = np.linspace(t0, t0+T, N+1)                                                  # integration grid
+    Z = np.random.randn(M, N)                                                       # gaussian white noise
+    X = x0*np.ones((M, N+1))                                                        # init trajectories simulation
+    times_of_jumps, sizes_of_jumps = simulator_jump_process(t0, T, M)               # jumps and sizes times
+    indexes = list(map(lambda ts: (N*(ts - t0)/T).astype(int), times_of_jumps))     # closest represented times indexes
 
-
+    # Compute jump-diffusion SDE
+    for m in range(M):
+        for n in range(1, N+1):
+            a_b = X[m, n-1] + a(t[n-1], X[m, n-1])*dT + b(t[n-1], X[m, n-1])*np.sqrt(dT)*Z[m, n-1]
+            actual_time = np.where(indexes[m]==n)[0]
+            if len(actual_time) > 0:
+                X[m, n] = a_b + c(t[n-1], X[m, n-1])*sizes_of_jumps[m][actual_time[0]]
+            else:
+                X[m, n] = a_b
+    return t, X

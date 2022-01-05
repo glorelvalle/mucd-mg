@@ -137,6 +137,7 @@ ti/DatosSinapsisArtificial.zip
 ti/DatosSinapsisArtificial/*.zip
 ti/DatosSinapsisArtificial/*.txt
 ti/DatosSinapsisArtificial/TrozoC/TrozoC.txt
+gd/p2/gd-ld-p2/movielens/year=2019/month=11/*.csv
 
 # R
 .Rhistory

@@ -140,5 +140,11 @@ ti/DatosSinapsisArtificial/TrozoC/TrozoC.txt
 gd/p2/gd-ld-p2/movielens/year=2019/month=11/*.csv
 gd/p2/gd-st-p2/movielens/year=2019/month=11/*.csv
 
+pln/aspects/*.csv
+pln/modifiers/modifiers.csv
+pln/vader_lexicon/vader_lexicon.csv
+pln/yelp_dataset/*.json
+
+
 # R
 .Rhistory

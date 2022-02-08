@@ -3,6 +3,9 @@
 Simulate Gaussian processes.
 
 @author: <alberto.suarez@uam.es>
+@author: <maria.barrosoh@estudiante.uam.es>
+
+
 """
 # Load packages
 
@@ -12,6 +15,34 @@ from typing import Callable, Tuple
 
 import numpy as np
 from scipy.spatial import distance
+from scipy import linalg
+
+def compute_covariance(
+    s: np.ndarray, 
+    t: np.ndarray, 
+    kernel_fn: Callable[[np.ndarray], np.ndarray],
+) -> np.ndarray:
+    """Compute Covariance matrix.
+    
+    Parameters
+    ----------
+    t :
+        Times at which the process is monitored.
+
+    s :
+        Times at which the process is monitored.
+
+    kernel_fn:
+        Covariance functions of the Gaussian process (vectorized).
+
+    Returns
+    -------
+    Covariance matrix
+    
+    """
+    
+    sv, tv = np.meshgrid(s, t, indexing='ij')
+    return kernel_fn(sv,tv)
 
 
 def rbf_kernel(
@@ -122,16 +153,17 @@ def simulate_gp(
 
     #<YOUR CODE HERE>
     
-    #  Use np.meshgrid
-    sv, tv = np.meshgrid(t, t, indexing='ij')
-    kernel_matrix = kernel_fn(sv,tv)
+    #  Compute covariance using np.meshgrid
+    kernel_matrix = compute_covariance(t, t, kernel_fn)
     
-    #  Use np.linalg.svd
+    #  Compute SVD using np.linalg.svd
     U, s, Vh = np.linalg.svd(kernel_matrix)
     S = np.diag(np.sqrt(s))
 
     mean_vector = mean_fn(t)
+    
     Z = np.random.randn(M, len(t))
+    
     X = mean_vector + Z@S@U.T
 
     return X, mean_vector, kernel_matrix
@@ -218,6 +250,15 @@ def simulate_conditional_gp(
     # 'svd' is slower, but numerically more robust than 'cholesky'
 
     # <YOUR CODE HERE>
+    
+    kernel_tobs = compute_covariance(t_obs, t_obs, kernel_fn)
+    kernel_tn = compute_covariance(t, t, kernel_fn)
+    kernel_tn_tobs = compute_covariance(t, t_obs, kernel_fn)
+    
+    mean_vector = mean_fn(t) + kernel_tn_tobs@linalg.solve(kernel_tobs, x_obs - mean_fn(t_obs))
+    kernel_matrix = kernel_tn - kernel_tn_tobs@linalg.solve(kernel_tobs, kernel_tn_tobs.T)
+    
+    X = np.random.default_rng().multivariate_normal(mean_vector, kernel_matrix, size=M)
 
     return X, mean_vector, kernel_matrix
 
@@ -277,7 +318,14 @@ def gp_regression(
     # This procedure is numerically more robust.
 
     # <YOUR CODE HERE>
-
+    kernel_xx = kernel_fn(X_test,X_test)
+    kernel_xX = kernel_fn(X_test,X)
+    kernel_XX = kernel_fn(X,X)
+    
+    y_variance = kernel_XX + sigma2_noise*np.identity(len(y))
+    
+    prediction_mean = kernel_xX@linalg.solve(y_variance, y)
+    prediction_variance = kernel_xx - kernel_xX@linalg.solve(y_variance, kernel_xX.T)
     return prediction_mean, prediction_variance
 
 

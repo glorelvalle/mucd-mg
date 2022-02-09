@@ -150,8 +150,6 @@ def simulate_gp(
     >>> _= plt.title('Standard Brownian Bridge process')
     >>> plt.show()
     """
-
-    #<YOUR CODE HERE>
     
     #  Compute covariance using np.meshgrid
     kernel_matrix = compute_covariance(t, t, kernel_fn)
@@ -160,10 +158,13 @@ def simulate_gp(
     U, s, Vh = np.linalg.svd(kernel_matrix)
     S = np.diag(np.sqrt(s))
 
+    #  Save mean vector at each time
     mean_vector = mean_fn(t)
     
+    #  Sample from standard gaussian
     Z = np.random.randn(M, len(t))
     
+    #  Generate GP processes (SVD method)
     X = mean_vector + Z@S@U.T
 
     return X, mean_vector, kernel_matrix
@@ -248,8 +249,6 @@ def simulate_conditional_gp(
     """
     # NOTE Use 'multivariate_normal' from numpy with "'method = 'svd'".
     # 'svd' is slower, but numerically more robust than 'cholesky'
-
-    # <YOUR CODE HERE>
     
     kernel_tobs = compute_covariance(t_obs, t_obs, kernel_fn)
     kernel_tn = compute_covariance(t, t, kernel_fn)

@@ -4,7 +4,7 @@ Simulate Gaussian processes.
 
 @author: <alberto.suarez@uam.es>
 @author: <maria.barrosoh@estudiante.uam.es>
-
+@author: <gloria.valle@estudiante.uam.es>
 
 """
 # Load packages
@@ -250,13 +250,16 @@ def simulate_conditional_gp(
     # NOTE Use 'multivariate_normal' from numpy with "'method = 'svd'".
     # 'svd' is slower, but numerically more robust than 'cholesky'
     
+    #  Compute kernel matrices with covariance for (t_obs, t_obs) (t, t) (t, t_obs)
     kernel_tobs = compute_covariance(t_obs, t_obs, kernel_fn)
     kernel_tn = compute_covariance(t, t, kernel_fn)
     kernel_tn_tobs = compute_covariance(t, t_obs, kernel_fn)
     
+    #  Get mean and covariance matrix for conditional GP
     mean_vector = mean_fn(t) + kernel_tn_tobs@linalg.solve(kernel_tobs, x_obs - mean_fn(t_obs))
     kernel_matrix = kernel_tn - kernel_tn_tobs@linalg.solve(kernel_tobs, kernel_tn_tobs.T)
     
+    #  Samples with SVD and multivariate normal
     X = np.random.default_rng().multivariate_normal(mean_vector, kernel_matrix, size=M)
 
     return X, mean_vector, kernel_matrix
@@ -316,15 +319,18 @@ def gp_regression(
     # NOTE use 'np.linalg.solve' instead of inverting the matrix.
     # This procedure is numerically more robust.
 
-    # <YOUR CODE HERE>
-    kernel_xx = kernel_fn(X_test,X_test)
-    kernel_xX = kernel_fn(X_test,X)
-    kernel_XX = kernel_fn(X,X)
+    #  Compute kernel matrices
+    kernel_xx = kernel_fn(X_test, X_test)
+    kernel_xX = kernel_fn(X_test, X)
+    kernel_XX = kernel_fn(X, X)
     
+    #  Noise regularization
     y_variance = kernel_XX + sigma2_noise*np.identity(len(y))
     
+    #  Compute mean and covariance of GP (conditional on observed values)
     prediction_mean = kernel_xX@linalg.solve(y_variance, y)
     prediction_variance = kernel_xx - kernel_xX@linalg.solve(y_variance, kernel_xX.T)
+
     return prediction_mean, prediction_variance
 
 

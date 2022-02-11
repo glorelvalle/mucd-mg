@@ -154,7 +154,7 @@ def simulate_gp(
     #  Compute covariance using np.meshgrid
     kernel_matrix = compute_covariance(t, t, kernel_fn)
     
-    #  Compute SVD using np.linalg.svd
+    #  Compute SVD of kernel matrix using np.linalg.svd
     U, s, Vh = np.linalg.svd(kernel_matrix)
     S = np.diag(np.sqrt(s))
 

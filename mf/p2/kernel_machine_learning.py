@@ -134,7 +134,18 @@ def kernel_pca(
 
     lambda_eigenvals, alpha_eigenvecs = np.linalg.eigh(KC)
 
+    lambda_eigenvals[lambda_eigenvals < 1.0e-9] = 0.0
+
     lambda_eigenvals, alpha_eigenvecs = lambda_eigenvals[::-1], alpha_eigenvecs[:, ::-1]
+
+    K_test = kernel(X_test, X)
+
+    # no vale hay que poner uno mas porque LxN
+    KC_test = centered_kernel(K_test)
+
+
+
+#####################
 
     print(lambda_eigenvals, alpha_eigenvecs)
 

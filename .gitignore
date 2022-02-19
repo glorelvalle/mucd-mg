@@ -145,6 +145,7 @@ pln/modifiers/modifiers.csv
 pln/vader_lexicon/vader_lexicon.csv
 pln/yelp_dataset/*.json
 
+mf/p2/*.csv
 
 # R
 .Rhistory

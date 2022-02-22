@@ -295,7 +295,7 @@ def demo_kernel_approximation_error_evolution(
     X: np.ndarray,
     kernel: Callable[[np.ndarray, np.ndarray], np.ndarray],
     features_sampler: Union[RandomFeaturesSampler, NystroemFeaturesSampler],
-    N: int # Upper bound on the number of simulations
+    N: int # Upper bound on the number of simulations,
 ) -> None:
     """Error evolution of Kernel approximation."""
 
@@ -310,7 +310,10 @@ def demo_kernel_approximation_error_evolution(
         err_means.append(np.mean(np.abs(kernel_matrix - kernel_matrix_approx)))
     
     plt.plot(features_range, err_means, label = 'empirical error')
-    plt.plot(features_range, 1/np.sqrt(features_range), label = 'theoretical error')
+    if isinstance(features_sampler, NystroemFeaturesSampler):
+        plt.plot(features_range, 1/np.power(features_range, 1.25), label = 'theoretical error Nystrom')
+    else:
+        plt.plot(features_range, 1/np.sqrt(features_range), label = 'theoretical error Monte Carlo')
 
     plt.legend()
     plt.title("Evolution of mean approximation error")

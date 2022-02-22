@@ -1,6 +1,7 @@
-from typing import Callable, Tuple
+from typing import Optional, Callable, Tuple
 
 import numpy as np
+from pyparsing import alphanums
 from scipy.spatial import distance
 
 
@@ -63,7 +64,8 @@ def rbf_kernel(
     return A * np.exp(-0.5 * (d / ls)**2)
 
 def centered_kernel(
-    K: np.ndarray
+    K: np.ndarray,
+    K_test: Optional[np.ndarray] = None,
     ) -> np.ndarray:
     """
     Centering of the kernel
@@ -72,6 +74,10 @@ def centered_kernel(
     ----------
     K:
         Kernel matrix
+    
+    K_test:
+
+        Kernel test matrix (Optional, for phase 4 Kernel PCA)
 
     Returns
     -------
@@ -82,14 +88,23 @@ def centered_kernel(
     >>> 
     """
 
-    # Get number of elements
+    # Get number of elements (N)
     N = K.shape[0]
+
+    # Get number of elements (L)
+    L = K_test.shape[0] if K_test is not None else N
 
     # Save ones vector
     ones_vector = np.ones((N, N))
 
     # Compute given formula for centered kernel matrix form
-    return K - 1/N * (K@ones_vector) - 1/N * (ones_vector@K) + 1/(N**2) * (ones_vector@K@ones_vector)
+    if L == N:
+        K_res = K - 1/N * (K @ ones_vector) - 1/N * (ones_vector @ K) + 1/(N**2) * (ones_vector @ K @ ones_vector)
+    else:
+        ones_vector_p = np.ones((L, N))
+        K_res = K_test - 1/N * (K_test @ ones_vector) - 1/N*(ones_vector_p @ K) + 1/(N**2) * (ones_vector_p @ K @ ones_vector)
+    
+    return K_res
 
 
 def kernel_pca(
@@ -126,30 +141,29 @@ def kernel_pca(
 
     """
 
-    # NOTE <YOUR CODE HERE>.
-
+    # Kernel Gram matrix
     K = kernel(X, X)
 
-    KC = centered_kernel(K)
+    # Centered kernel gram matrix
+    K_tilde = centered_kernel(K)
 
-    lambda_eigenvals, alpha_eigenvecs = np.linalg.eigh(KC)
+    # Compute eigenvalues and eigenvectors
+    lambda_eigenvals, alpha_eigenvecs = np.linalg.eigh(K_tilde)
 
-    lambda_eigenvals[lambda_eigenvals < 1.0e-9] = 0.0
-
+    # Find the first d non-zero eigenvalues and the corresponding eigenvectors
+    lambda_eigenvals[lambda_eigenvals < 1.0e-9] = 0.
     lambda_eigenvals, alpha_eigenvecs = lambda_eigenvals[::-1], alpha_eigenvecs[:, ::-1]
 
+    # Save non-zero eigenvalues
+    eigh_nonzero = np.flatnonzero(lambda_eigenvals)
+
+    # Kernel test gram matrix
     K_test = kernel(X_test, X)
 
-    # no vale hay que poner uno mas porque LxN
-    KC_test = centered_kernel(K_test)
+    # Compute centered kernel test gram matrix
+    K_test_tilde = centered_kernel(K, K_test)
 
-
-
-#####################
-
-    print(lambda_eigenvals, alpha_eigenvecs)
-
-    X_test_hat = X_test
-
+    # Output the projections of the test data onto the first d components
+    X_test_hat = K_test_tilde @ alpha_eigenvecs[:, eigh_nonzero]
 
     return X_test_hat, lambda_eigenvals, alpha_eigenvecs

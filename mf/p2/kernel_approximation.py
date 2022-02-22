@@ -31,7 +31,7 @@ class RandomFeaturesSampler(ABC, BaseEstimator, TransformerMixin):
     def fit_transform(
         self,
         X: np.ndarray,
-        y: Optional[np.ndarray] = None # Added to ensure compatibility with sklearn
+        X_prime: Optional[np.ndarray] = None # Added to ensure compatibility with sklearn
     ) -> np.ndarray:
         """Initialize  w's (fit) & compute random features (transform)."""
         n_features = np.shape(X)[1]
@@ -223,7 +223,7 @@ class NystroemFeaturesSampler(BaseEstimator, TransformerMixin):
             
         return self # Return the class to ensure compatibility with sklearn
 
-
+    # Esta funcion no se llama nunca pero en caso de que se llame, calcularía correctamente la matriz de Kernel aproximada
     def approximate_kernel_matrix(
         self,
         X: np.ndarray,
@@ -232,13 +232,18 @@ class NystroemFeaturesSampler(BaseEstimator, TransformerMixin):
         """Approximate the kernel matrix using Nystroem features."""
 
         # NOTE <YOUR CODE HERE>.
-        self.fit(X, self.n_random_features)
-        if X_prime is None:
-            X_prime = X
-        X_features = self.transform(X_prime)
-        
+        X_features = self.fit_transform(X)
         return X_features @ X_features.T
     
+    def fit_transform(
+        self,
+        X: np.ndarray,
+        X_prime: Optional[np.ndarray] = None
+    ) -> np.ndarray:
+        """Compute Nyström features."""
+        self.fit(X, self.n_random_features)
+        X_nystroem = self.transform(X)
+        return X_nystroem
     
     def transform(self, X_prime: np.ndarray) -> np.ndarray:
         """Compute Nystroem features with precomputed quantities."""

@@ -3,6 +3,7 @@ from typing import Optional, Callable, Tuple
 import numpy as np
 from pyparsing import alphanums
 from scipy.spatial import distance
+from sklearn.utils.extmath import svd_flip
 
 
 def linear_kernel(
@@ -155,7 +156,7 @@ def kernel_pca(
     lambda_eigenvals, alpha_eigenvecs = lambda_eigenvals[::-1], alpha_eigenvecs[:, ::-1]
 
     # Save non-zero eigenvalues
-    eigh_nonzero = np.flatnonzero(lambda_eigenvals)
+    lambda_nonzero = np.flatnonzero(lambda_eigenvals)
 
     # Kernel test gram matrix
     K_test = kernel(X_test, X)
@@ -163,7 +164,14 @@ def kernel_pca(
     # Compute centered kernel test gram matrix
     K_test_tilde = centered_kernel(K, K_test)
 
+    # Sign correction of eigenvectors
+    V_t = np.zeros_like(alpha_eigenvecs).T
+    alpha_eigenvecs, _ = svd_flip(alpha_eigenvecs, V_t)
+    
+    # Normalization of eigenvectors
+    alpha_eigenvecs[:, lambda_nonzero] /= np.sqrt(lambda_eigenvals[lambda_nonzero])
+
     # Output the projections of the test data onto the first d components
-    X_test_hat = K_test_tilde @ alpha_eigenvecs[:, eigh_nonzero]
+    X_test_hat = K_test_tilde @ alpha_eigenvecs[:, lambda_nonzero]
 
     return X_test_hat, lambda_eigenvals, alpha_eigenvecs

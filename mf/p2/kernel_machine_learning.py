@@ -1,6 +1,7 @@
 from typing import Optional, Callable, Tuple
 
 import numpy as np
+import matplotlib.pyplot as plt
 from pyparsing import alphanums
 from scipy.spatial import distance
 from sklearn.utils.extmath import svd_flip
@@ -152,7 +153,7 @@ def kernel_pca(
     lambda_eigenvals, alpha_eigenvecs = np.linalg.eigh(K_tilde)
 
     # Find the first d non-zero eigenvalues and the corresponding eigenvectors
-    lambda_eigenvals[lambda_eigenvals < 1.0e-9] = 0.
+    lambda_eigenvals[lambda_eigenvals < 1.e-9] = 0.
     lambda_eigenvals, alpha_eigenvecs = lambda_eigenvals[::-1], alpha_eigenvecs[:, ::-1]
 
     # Save non-zero eigenvalues
@@ -175,3 +176,32 @@ def kernel_pca(
     X_test_hat = K_test_tilde @ alpha_eigenvecs[:, lambda_nonzero]
 
     return X_test_hat, lambda_eigenvals, alpha_eigenvecs
+
+
+def plot_kernel_pca(gamma, X, y, A=1.):
+    """
+    """
+
+    # Plot parameters
+    reds = y == 0
+    blues = y == 1
+    L = np.sqrt(0.5/gamma)
+    
+    # Local Kernel definition
+    local_rbf_kernel = lambda X, X_p: rbf_kernel(X, X_p, A, L)
+
+    # PCA (local)
+    X_kpca, _, _= kernel_pca(X, X, local_rbf_kernel)
+
+    # Plots
+    fig = plt.figure(figsize=(12, 8))
+    ax = fig.add_subplot(111)
+    ax.scatter(X_kpca[reds, 0], X_kpca[reds, 1], c='red', s=20, edgecolor='k')
+    ax.scatter(X_kpca[blues, 0], X_kpca[blues, 1], c='blue', s=20, edgecolor='k')
+    ax.set_title("Projection by PCA, $\gamma={}$".format(gamma))
+    ax.set_xlabel('$x_1$')
+    ax.set_ylabel('$x_2$')
+    
+
+
+

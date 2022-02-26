@@ -17,15 +17,18 @@ import matplotlib.animation as animation
 import kernel_machine_learning as KML
 
 
-def plot_config(ax, gamma):
+def plot_config(ax, gamma, lims=False):
     """ """
     ax.clear()
+    if lims:
+        ax.set_xlim((-1, 1))
+        ax.set_ylim((-1, 1))
     ax.set_xlabel(r"$x_1$: first principal component in space induced by $\phi$")
     ax.set_ylabel(r"$x_2$: second principal component")
-    ax.set_title(r"Projection by KPCA, $\gamma=$" + f"{gamma:.1f}")
+    ax.set_title(r"Projection by KPCA, $\gamma=$" + f"{gamma:.4f}")
 
 
-def move_animation(N, gammas, ax, X, X_test, reds, blues, A, L):
+def move_animation(N, gammas, ax, X, X_test, reds, blues, A, L, lims):
     """ """
     gamma = gammas[N]
     L = np.sqrt(0.5 / gamma)
@@ -33,7 +36,7 @@ def move_animation(N, gammas, ax, X, X_test, reds, blues, A, L):
     # Local Kernel definition
     kernel = lambda X, X_p: KML.rbf_kernel(X, X_p, A, L)
 
-    plot_config(ax, gamma)
+    plot_config(ax, gamma, lims)
 
     X_kpca, _, _ = KML.kernel_pca(X, X_test, kernel)
 
@@ -41,7 +44,7 @@ def move_animation(N, gammas, ax, X, X_test, reds, blues, A, L):
     ax.scatter(X_kpca[blues, 0], X_kpca[blues, 1], c="blue", s=20, edgecolor="k")
 
 
-def animate(X, X_test, y_test, N, gammas, A, L):
+def animate(X, X_test, y_test, N, gammas, A, L, lims):
     """ """
 
     # Init
@@ -58,12 +61,13 @@ def animate(X, X_test, y_test, N, gammas, A, L):
         move_animation,
         N,
         repeat=False,
-        fargs=(gammas, ax, X, X_test, reds, blues, A, L),
+        fargs=(gammas, ax, X, X_test, reds, blues, A, L, lims),
     )
 
 
 # For reproducible results
 seed = 0
+lims = True
 np.random.seed(seed)
 
 # Input data
@@ -71,12 +75,15 @@ X, y = datasets.make_moons(n_samples=400, noise=0.05, random_state=seed)
 
 # Init animation parameters
 A, L = 1.0, 1.0
-N = 50
+N = 80
 
 # Init gammas
 gammas = 2 * np.logspace(-5, 5, N)
 
 # Save animation
-gif = animate(X, X, y, N, gammas, A, L)
-gif.save("KPCA.gif", writer="imagemagick", fps=20)
+gif = animate(X, X, y, N, gammas, A, L, lims)
+if lims:
+    gif.save("KPCA0.gif", writer="imagemagick", fps=5)
+else:
+    gif.save("KPCA2.gif", writer="imagemagick", fps=5)
 plt.show()

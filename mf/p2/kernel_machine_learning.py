@@ -15,13 +15,10 @@ def linear_kernel(
 
 
 def exponential_kernel(
-    X: np.ndarray,
-    X_prime: np.ndarray,
-    A: float,
-    l: float
+    X: np.ndarray, X_prime: np.ndarray, A: float, l: float
 ) -> np.ndarray:
-    d = distance.cdist(X, X_prime, metric='minkovski', p=1.0)
-    return A * np.exp(- d / l)
+    d = distance.cdist(X, X_prime, metric="minkovski", p=1.0)
+    return A * np.exp(-d / l)
 
 
 def rbf_kernel(
@@ -62,13 +59,14 @@ def rbf_kernel(
     >>> kernel_matrix = gp.rbf_kernel(X, X_prime, A, l)
     >>> print(kernel_matrix)
     """
-    d = distance.cdist(X, X_prime, metric='euclidean')
-    return A * np.exp(-0.5 * (d / ls)**2)
+    d = distance.cdist(X, X_prime, metric="euclidean")
+    return A * np.exp(-0.5 * (d / ls) ** 2)
+
 
 def centered_kernel(
     K: np.ndarray,
     K_test: Optional[np.ndarray] = None,
-    ) -> np.ndarray:
+) -> np.ndarray:
     """
     Centering of the kernel
 
@@ -76,7 +74,7 @@ def centered_kernel(
     ----------
     K:
         Kernel matrix
-    
+
     K_test:
 
         Kernel test matrix (Optional, for phase 4 Kernel PCA)
@@ -87,7 +85,7 @@ def centered_kernel(
 
     Example
     -------
-    >>> 
+    >>>
     """
 
     # Get number of elements (N)
@@ -101,11 +99,21 @@ def centered_kernel(
 
     # Compute given formula for centered kernel matrix form
     if L == N:
-        K_res = K - 1/N * (K @ ones_vector) - 1/N * (ones_vector @ K) + 1/(N**2) * (ones_vector @ K @ ones_vector)
+        K_res = (
+            K
+            - 1 / N * (K @ ones_vector)
+            - 1 / N * (ones_vector @ K)
+            + 1 / (N**2) * (ones_vector @ K @ ones_vector)
+        )
     else:
         ones_vector_p = np.ones((L, N))
-        K_res = K_test - 1/N * (K_test @ ones_vector) - 1/N*(ones_vector_p @ K) + 1/(N**2) * (ones_vector_p @ K @ ones_vector)
-    
+        K_res = (
+            K_test
+            - 1 / N * (K_test @ ones_vector)
+            - 1 / N * (ones_vector_p @ K)
+            + 1 / (N**2) * (ones_vector_p @ K @ ones_vector)
+        )
+
     return K_res
 
 
@@ -153,7 +161,7 @@ def kernel_pca(
     lambda_eigenvals, alpha_eigenvecs = np.linalg.eigh(K_tilde)
 
     # Find the first d non-zero eigenvalues and the corresponding eigenvectors
-    lambda_eigenvals[lambda_eigenvals < 1.e-9] = 0.
+    lambda_eigenvals[lambda_eigenvals < 1.0e-9] = 0.0
     lambda_eigenvals, alpha_eigenvecs = lambda_eigenvals[::-1], alpha_eigenvecs[:, ::-1]
 
     # Save non-zero eigenvalues
@@ -168,7 +176,7 @@ def kernel_pca(
     # Sign correction of eigenvectors
     V_t = np.zeros_like(alpha_eigenvecs).T
     alpha_eigenvecs, _ = svd_flip(alpha_eigenvecs, V_t)
-    
+
     # Normalization of eigenvectors
     alpha_eigenvecs[:, lambda_nonzero] /= np.sqrt(lambda_eigenvals[lambda_nonzero])
 
@@ -178,30 +186,25 @@ def kernel_pca(
     return X_test_hat, lambda_eigenvals, alpha_eigenvecs
 
 
-def plot_kernel_pca(gamma, X, y, A=1.):
-    """
-    """
+def plot_kernel_pca(gamma, X, y, A=1.0):
+    """ """
 
     # Plot parameters
     reds = y == 0
     blues = y == 1
-    L = np.sqrt(0.5/gamma)
-    
+    L = np.sqrt(0.5 / gamma)
+
     # Local Kernel definition
     local_rbf_kernel = lambda X, X_p: rbf_kernel(X, X_p, A, L)
 
     # PCA (local)
-    X_kpca, _, _= kernel_pca(X, X, local_rbf_kernel)
+    X_kpca, _, _ = kernel_pca(X, X, local_rbf_kernel)
 
     # Plots
     fig = plt.figure(figsize=(12, 8))
     ax = fig.add_subplot(111)
-    ax.scatter(X_kpca[reds, 0], X_kpca[reds, 1], c='red', s=20, edgecolor='k')
-    ax.scatter(X_kpca[blues, 0], X_kpca[blues, 1], c='blue', s=20, edgecolor='k')
+    ax.scatter(X_kpca[reds, 0], X_kpca[reds, 1], c="red", s=20, edgecolor="k")
+    ax.scatter(X_kpca[blues, 0], X_kpca[blues, 1], c="blue", s=20, edgecolor="k")
     ax.set_title("Projection by PCA, $\gamma={}$".format(gamma))
-    ax.set_xlabel('$x_1$')
-    ax.set_ylabel('$x_2$')
-    
-
-
-
+    ax.set_xlabel("$x_1$")
+    ax.set_ylabel("$x_2$")

@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Dec 06 22:20:47 2020
+
+@author: Alberto Suárez
+@author: María Barroso and Gloria del Valle
+
+This script allows the Kernel PCA execution.
+
+"""
 from typing import Optional, Callable, Tuple
 
 import numpy as np
@@ -128,7 +138,7 @@ def kernel_pca(
     X:
         Data matrix
     X_test:
-        data matrix
+        Data test matrix
     A:
         output variance
     ls:
@@ -187,7 +197,19 @@ def kernel_pca(
 
 
 def plot_kernel_pca(gamma, X, y, A=1.0):
-    """ """
+    """This function plots Kernel PCA
+    Parameters
+    ----------
+    gamma:
+        Gamma value
+    X:
+        Data matrix
+    y:
+        Predicted values
+    A:
+        Sigma value (Kernel)
+
+    """
 
     # Plot parameters
     reds = y == 0

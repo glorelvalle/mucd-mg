@@ -18,18 +18,57 @@ import kernel_machine_learning as KML
 
 
 def plot_config(ax, gamma, lims=False):
-    """ """
+    """This function updates the Kernel PCA plot at every gamma
+    Parameters
+    ----------
+    ax:
+        Plot axes
+    gamma:
+        Gamma value
+    lims:
+        Plot limits when needed
+
+    """
+    # Clear plot
     ax.clear()
+
+    # Save limits for fixed scale
     if lims:
         ax.set_xlim((-1, 1))
         ax.set_ylim((-1, 1))
+
+    # Plot parameters
     ax.set_xlabel(r"$x_1$: first principal component in space induced by $\phi$")
     ax.set_ylabel(r"$x_2$: second principal component")
     ax.set_title(r"Projection by KPCA, $\gamma=$" + f"{gamma:.4f}")
 
 
 def move_animation(N, gammas, ax, X, X_test, reds, blues, A, L, lims):
-    """ """
+    """This function updates the Kernel PCA animation at every gamma
+    Parameters
+    ----------
+    N:
+        Number of frames
+    gammas:
+        Gamma values
+    ax:
+        Plot axes
+    X:
+        Data matrix
+    X_test:
+        Data test matrix
+    reds:
+        Red points
+    blues:
+        Blue points
+    A:
+        Sigma value (Kernel)
+    L:
+        Lengthscale (Kernel)
+    lims:
+        Plot limits when needed
+
+    """
     gamma = gammas[N]
     L = np.sqrt(0.5 / gamma)
 
@@ -45,7 +84,27 @@ def move_animation(N, gammas, ax, X, X_test, reds, blues, A, L, lims):
 
 
 def animate(X, X_test, y_test, N, gammas, A, L, lims):
-    """ """
+    """This function executes the Kernel PCA animation
+    Parameters
+    ----------
+    X:
+        Data matrix
+    X_test:
+        Data test matrix
+    y_test:
+        Predicted test values
+    N:
+        Number of frames
+    gammas:
+        Gamma values
+    A:
+        Sigma value (Kernel)
+    L:
+        Lengthscale (Kernel)
+    lims:
+        Plot limits when needed
+
+    """
 
     # Init
     fig = plt.figure(figsize=(12, 8))

@@ -16,13 +16,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy as sp
 
-from sklearn.gaussian_process.kernels import (
-    RBF,
-)  # RBF kernel as default method in Nystroem
-from sklearn.base import (
-    BaseEstimator,
-    TransformerMixin,
-)  # Mixin and Base classes for all transformers and estimators in scikit-learn.
+from sklearn.gaussian_process.kernels import RBF  # RBF kernel as default method in Nystroem
+from sklearn.base import BaseEstimator, TransformerMixin  # Mixin and Base classes for all transformers and estimators in scikit-learn.
 
 
 class RandomFeaturesSampler(ABC, BaseEstimator, TransformerMixin):
@@ -308,13 +303,32 @@ def demo_kernel_approximation_features(
     plt.show()
 
 
+    
+
 def demo_kernel_approximation_error_evolution(
     X: np.ndarray,
     kernel: Callable[[np.ndarray, np.ndarray], np.ndarray],
     features_sampler: Union[RandomFeaturesSampler, NystroemFeaturesSampler],
-    N: int,  # Upper bound on the number of simulations,
+    N: int, 
 ) -> None:
-    """Error evolution of Kernel approximation."""
+    """
+    Parameters
+    ----------
+    X:
+        Data matrix
+    kernel:
+        Kernel function
+    features_sampler:
+        Nystroem or Random features sampler
+    N:
+        Upper bound on the number of simulations
+        
+
+    Returns
+    -------
+        Plot error evolution of Kernel approximation
+
+    """
 
     kernel_matrix = kernel(X, X)
 
@@ -330,7 +344,7 @@ def demo_kernel_approximation_error_evolution(
     if isinstance(features_sampler, NystroemFeaturesSampler):
         plt.plot(
             features_range,
-            1 / np.power(features_range, 1.25),
+            1 / np.power(features_range, 5/4), # chosen for convenience
             label="theoretical error Nystrom",
         )
     else:

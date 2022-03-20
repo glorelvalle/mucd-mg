@@ -6,11 +6,12 @@ Tarea 1. 2. Actividades:
 
 @author: <maria.barrosoh@estudiante.uam.es>
 """
+import numpy as np
 
 
 def dichotomic_search(func, lower_bound, upper_bound, uncertainty_length, epsilon, max_iter = 100):
 
-	for k in range(max_iter):
+	for it_k in range(max_iter):
 		
 		if upper_bound - lower_bound < uncertainty_length:
 			break
@@ -24,10 +25,10 @@ def dichotomic_search(func, lower_bound, upper_bound, uncertainty_length, epsilo
 		else:
 			lower_bound = lambda_k
 
-	if k == max_iter:
+	if it_k == max_iter:
 		print(f'Dichotomic search has divergenced.')
 
-	return lower_bound, upper_bound
+	return lower_bound, upper_bound, it_k
 
 def golden_search(func, lower_bound, upper_bound, uncertainty_length, max_iter = 100):
 	
@@ -39,7 +40,7 @@ def golden_search(func, lower_bound, upper_bound, uncertainty_length, max_iter =
 	lambda_k = update_lambda(lower_bound, upper_bound, golden_alpha)
 	mu_k = update_mu(lower_bound, upper_bound, golden_alpha)
 
-	for k in range(max_iter):
+	for it_k in range(max_iter):
 
 		if upper_bound - lower_bound < uncertainty_length:
 			break
@@ -54,7 +55,45 @@ def golden_search(func, lower_bound, upper_bound, uncertainty_length, max_iter =
 			lambda_k = update_lambda(lower_bound, upper_bound, golden_alpha)
 		
 
-	if k == max_iter:
+	if it_k == max_iter:
 		print(f'Dichotomic search has divergenced.')
 
-	return lower_bound, upper_bound
+	return lower_bound, upper_bound, it_k
+
+
+# https://programmerclick.com/article/68471751254/
+def HJ_search(func, xk, lambd = 1.0, alpha = 1.0, beta = 0.5, epsilon = 1e-3, max_iter = 100):
+	"""
+		xk : punto inicial 
+		lambd : paso de búsqueda de detección inicial
+		alfa (alfa> = 1) : factor de aceleración
+		beta (0 <beta <1) : tasa de reducción beta
+		epsilon  (epsilon> 0) : error permisible
+	"""
+	yk = xk.copy()
+	n = len(xk)
+	k = 1
+	while lambd > epsilon:
+
+		if k == max_iter:
+			print(f'Hooke and Jeeves search has divergenced.')
+			return xk, k
+
+		for i in range(n):
+			d = np.zeros(n)
+			d[i] = 1
+
+			if func(yk + lambd * d) < func(yk):
+				yk = yk + lambd * d
+			elif func(yk - lambd * d) < func(yk):
+				yk = yk - lambd * d
+
+		if func(yk) < func(xk):
+			xk = yk
+			yk = yk + alpha * (yk - xk)
+		else:
+			lambd, yk = lambd * beta, xk
+
+		k += 1
+
+	return xk, k

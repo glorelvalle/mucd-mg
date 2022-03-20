@@ -9,11 +9,19 @@ Tarea 1. 2. Actividades:
 import numpy as np
 
 
-def dichotomic_search(func, lower_bound, upper_bound, uncertainty_length, epsilon, max_iter = 100):
+def dichotomic_search(func, 
+					  lower_bound, 
+					  upper_bound, 
+					  uncertainty_length, 
+					  epsilon, 
+					  max_iter = 100):
 
-	for it_k in range(max_iter):
+	converged = False
+
+	for it in range(max_iter):
 		
 		if upper_bound - lower_bound < uncertainty_length:
+			converged = True
 			break
 
 		mid_point = 0.5 * (upper_bound + lower_bound)
@@ -25,13 +33,18 @@ def dichotomic_search(func, lower_bound, upper_bound, uncertainty_length, epsilo
 		else:
 			lower_bound = lambda_k
 
-	if it_k == max_iter:
+	if converged == False:
 		print(f'Dichotomic search has divergenced.')
 
-	return lower_bound, upper_bound, it_k
+	return lower_bound, upper_bound, it
 
-def golden_search(func, lower_bound, upper_bound, uncertainty_length, max_iter = 100):
+def golden_search(func, 
+				  lower_bound, 
+				  upper_bound, 
+				  uncertainty_length, 
+				  max_iter = 100):
 	
+	converged = False
 	golden_alpha = 0.618
 	
 	def update_lambda(lower_bound, upper_bound, golden_alpha): return lower_bound + (1 - golden_alpha)*(upper_bound - lower_bound)
@@ -40,9 +53,10 @@ def golden_search(func, lower_bound, upper_bound, uncertainty_length, max_iter =
 	lambda_k = update_lambda(lower_bound, upper_bound, golden_alpha)
 	mu_k = update_mu(lower_bound, upper_bound, golden_alpha)
 
-	for it_k in range(max_iter):
+	for it in range(max_iter):
 
 		if upper_bound - lower_bound < uncertainty_length:
+			converged = True
 			break
 
 		if func(lambda_k) > func(mu_k):
@@ -55,29 +69,37 @@ def golden_search(func, lower_bound, upper_bound, uncertainty_length, max_iter =
 			lambda_k = update_lambda(lower_bound, upper_bound, golden_alpha)
 		
 
-	if it_k == max_iter:
+	if converged == False:
 		print(f'Dichotomic search has divergenced.')
 
-	return lower_bound, upper_bound, it_k
+	return lower_bound, upper_bound, it
 
 
 # https://programmerclick.com/article/68471751254/
-def HJ_search(func, xk, lambd = 1.0, alpha = 1.0, beta = 0.5, epsilon = 1e-3, max_iter = 100):
+def HJ_search(func,
+			  x0, 
+			  lambd = 1.0, 
+			  alpha = 1.0, 
+			  beta = 0.5, 
+			  epsilon = 1e-3, 
+			  max_iter = 100):
 	"""
-		xk : punto inicial 
+		x0 : punto inicial 
 		lambd : paso de búsqueda de detección inicial
 		alfa (alfa> = 1) : factor de aceleración
-		beta (0 <beta <1) : tasa de reducción beta
+		beta (0 <beta <1) : tasa de reducción
 		epsilon  (epsilon> 0) : error permisible
 	"""
+	converged = False 
+	xk = x0.copy()
 	yk = xk.copy()
-	n = len(xk)
+	n = len(yk)
 	k = 1
-	while lambd > epsilon:
 
-		if k == max_iter:
-			print(f'Hooke and Jeeves search has divergenced.')
-			return xk, k
+	for it in range(max_iter):
+		if lambd < epsilon:
+			converged = True
+			break
 
 		for i in range(n):
 			d = np.zeros(n)
@@ -94,6 +116,66 @@ def HJ_search(func, xk, lambd = 1.0, alpha = 1.0, beta = 0.5, epsilon = 1e-3, ma
 		else:
 			lambd, yk = lambd * beta, xk
 
-		k += 1
+	if converged == False:
+		print(f'Hooke and Jeeves search has divergenced.')
 
-	return xk, k
+
+	return xk, it
+
+def newton_search(grad,
+                  hessian,
+                  x0,
+                  lr = 1.0,
+                  epsilon = 1e-5,
+                  max_iter = 100):
+
+	xk = x0.copy()
+	converged = False
+
+	for it in range(max_iter):
+		H = hessian(xk)
+		H_inv = np.linalg.solve(H, np.eye(H.shape[0]))
+
+		xk_current = xk - lr*grad(xk)@H_inv
+
+		if (np.linalg.norm(xk_current - xk) < epsilon):
+			converged = True
+			break
+
+		xk = xk_current
+
+	if not converged:
+		print("Newton search has divergenced.")
+
+
+	return xk, it
+
+def DFP(func,
+        grad, 
+        x0,
+        lr = 1.0,
+        epsilon = 1e-5,
+        max_iter = 100):
+    
+    xk = x0.copy()
+    Dk = np.eye(len(xk))
+    converged = False
+    
+    for it in range(max_iter):
+        sk = -lr*grad(xk)@Dk
+        xk_current = xk + sk
+
+        if (np.linalg.norm(xk_current - xk) < epsilon):
+            converged = True
+            break
+        
+        yk = grad(xk_current)-grad(xk)
+        
+        Dk = Dk + (sk@sk.T)/(sk.T@yk) - ((Dk@yk)@yk*Dk)/(yk@Dk@yk)
+        xk = xk_current
+
+    if not converged:
+        print("Newton search has divergenced.")
+
+
+    return xk, it

@@ -150,32 +150,35 @@ def newton_search(grad,
 
 	return xk, it
 
-def DFP(func,
-        grad, 
-        x0,
-        lr = 1.0,
-        epsilon = 1e-5,
-        max_iter = 100):
+def DFP_search(func,
+		       grad, 
+		       x0,
+		       lr = 1.0,
+		       epsilon = 1e-5,
+		       max_iter = 100):
     
     xk = x0.copy()
-    Dk = np.eye(len(xk))
+    n = len(xk)
+    Dk = np.eye(n)
     converged = False
     
-    for it in range(max_iter):
-        sk = -lr*grad(xk)@Dk
-        xk_current = xk + sk
-
-        if (np.linalg.norm(xk_current - xk) < epsilon):
+    for it in range(max_iter):            
+        dj = -grad(xk).T@Dk
+                
+        if (np.linalg.norm(grad(xk)) < epsilon):
             converged = True
             break
         
-        yk = grad(xk_current)-grad(xk)
+        p = lr*dj
         
-        Dk = Dk + (sk@sk.T)/(sk.T@yk) - ((Dk@yk)@yk*Dk)/(yk@Dk@yk)
+        xk_current = xk + lr*dj
+        q = (grad(xk_current)-grad(xk))   
+        
+        Dk = Dk + np.outer(p,p)/np.inner(q,p) - (Dk@np.outer(q,q)@Dk.T)/(q.T@Dk@q)    
+    
         xk = xk_current
 
     if not converged:
-        print("Newton search has divergenced.")
-
+        print("DFP search has divergenced.")
 
     return xk, it

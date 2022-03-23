@@ -8,16 +8,17 @@ import numpy as np
 from typing import Callable, Tuple, List
 
 
-def dichotomic_search(func: Callable[[float], float],
-                      lower_bound: float, 
-                      upper_bound: float, 
-                      uncertainty_length: float, 
-                      epsilon: float, 
-                      max_iter: int = 100
-)-> Tuple[float, float, int]:
+def dichotomic_search(
+    func: Callable[[float], float],
+    lower_bound: float,
+    upper_bound: float,
+    uncertainty_length: float,
+    epsilon: float,
+    max_iter: int = 100,
+) -> Tuple[float, float, int]:
     """
     Computes dicotomic search
-    
+
     Arguments
     ---------
     func :
@@ -32,7 +33,7 @@ def dichotomic_search(func: Callable[[float], float],
         Half length uncertainty intervals
     max_iter :
         Maximum number of iterations
-    
+
     Returns
     -------
     lower_bound : float
@@ -41,13 +42,13 @@ def dichotomic_search(func: Callable[[float], float],
         Upper bound final interval
     it:
         Final number of iterations computed
-    
+
     """
 
     converged = False
 
     for it in range(max_iter):
-        
+
         # Check stop condition
         if upper_bound - lower_bound < uncertainty_length:
             converged = True
@@ -70,16 +71,17 @@ def dichotomic_search(func: Callable[[float], float],
     return lower_bound, upper_bound, it
 
 
-def golden_search(func: Callable[[float], float],
-                  lower_bound: float, 
-                  upper_bound: float, 
-                  uncertainty_length: float, 
-                  max_iter: int = 100
-)-> Tuple[float, float, int]:
-    
+def golden_search(
+    func: Callable[[float], float],
+    lower_bound: float,
+    upper_bound: float,
+    uncertainty_length: float,
+    max_iter: int = 100,
+) -> Tuple[float, float, int]:
+
     """
     Computes Golden search method.
-    
+
     Arguments
     ---------
     func :
@@ -92,7 +94,7 @@ def golden_search(func: Callable[[float], float],
         Maximum length interval with optimal value
     max_iter :
         Maximum number of iterations
-    
+
     Returns
     -------
     lower_bound :
@@ -101,7 +103,7 @@ def golden_search(func: Callable[[float], float],
         Upper bound final interval
     it:
         Final number of iterations computed
-    
+
     """
 
     converged = False
@@ -123,7 +125,7 @@ def golden_search(func: Callable[[float], float],
             converged = True
             break
 
-        # Update bounds and uncertainty interval 
+        # Update bounds and uncertainty interval
         if func(lambda_k) > func(mu_k):
             lower_bound = lambda_k
             lambda_k = mu_k
@@ -139,17 +141,18 @@ def golden_search(func: Callable[[float], float],
     return lower_bound, upper_bound, it
 
 
-def HJ_search(func: Callable[[float], float],
-              x0: np.ndarray, 
-              lambd: float = 1.0, 
-              alpha: float = 1.0, 
-              beta: float = 0.5, 
-              epsilon: float = 1e-3, 
-              max_iter: int =100
-)-> Tuple[np.ndarray, int]:
+def HJ_search(
+    func: Callable[[float], float],
+    x0: np.ndarray,
+    lambd: float = 1.0,
+    alpha: float = 1.0,
+    beta: float = 0.5,
+    epsilon: float = 1e-3,
+    max_iter: int = 100,
+) -> Tuple[np.ndarray, int]:
     """
     Computes Hooke-Jeeves method.
-    
+
     Arguments
     ---------
     func :
@@ -165,22 +168,22 @@ def HJ_search(func: Callable[[float], float],
         0 < beta < 1
         Reduction rate
     epsilon:
-        Tolerance stop condition, permissible error   
+        Tolerance stop condition, permissible error
     max_iter :
         Maximum number of iterations
-    
+
     Returns
     -------
     xk :
         Optimal solution found
     it:
         Final number of iterations computed
-        
-    REF: 
+
+    REF:
         https://programmerclick.com/article/68471751254/
-    
+
     """
-    
+
     # Save initial points
     converged = False
     xk = x0.copy()
@@ -193,19 +196,19 @@ def HJ_search(func: Callable[[float], float],
         if lambd < epsilon:
             converged = True
             break
-        
+
         # for each dimensions
         for i in range(n):
             d = np.zeros(n)
             d[i] = 1
-            
-            # Update optimal directions 
+
+            # Update optimal directions
             if func(yk + lambd * d) < func(yk):
                 yk = yk + lambd * d
             elif func(yk - lambd * d) < func(yk):
                 yk = yk - lambd * d
-        
-        # Update points 
+
+        # Update points
         if func(yk) < func(xk):
             xk = yk
             yk = yk + alpha * (yk - xk)
@@ -218,32 +221,33 @@ def HJ_search(func: Callable[[float], float],
     return xk, it
 
 
-def newton_search(grad: Callable[[np.ndarray], np.ndarray], 
-                  hessian:  Callable[[np.ndarray], np.ndarray],
-                  x0: np.ndarray,
-                  lr: float = 1.0, 
-                  epsilon: float = 1e-5, 
-                  max_iter:int = 100
-)-> Tuple[np.ndarray, int]:
-    
+def newton_search(
+    grad: Callable[[np.ndarray], np.ndarray],
+    hessian: Callable[[np.ndarray], np.ndarray],
+    x0: np.ndarray,
+    lr: float = 1.0,
+    epsilon: float = 1e-5,
+    max_iter: int = 100,
+) -> Tuple[np.ndarray, int]:
+
     """
     Computes Newton search method.
-    
+
     Arguments
     ---------
     grad :
         Gradient of the function to minimize
-    hessian : 
+    hessian :
         Hessian of the function to minimize
     x0 :
         Initial point for the solution
     lr :
         Learning rate
     epsilon :
-        Tolerance stop condition, permissible error 
+        Tolerance stop condition, permissible error
     max_iter :
         Maximum number of iterations
-    
+
     Returns
     -------
     xk :
@@ -280,16 +284,17 @@ def newton_search(grad: Callable[[np.ndarray], np.ndarray],
     return xk, it
 
 
-def DFP_search(grad: Callable[[np.ndarray], np.ndarray], 
-               x0: np.ndarray,
-               lr: float = 1.0, 
-               epsilon: float = 1e-5, 
-               max_iter: int = 100
-)-> Tuple[np.ndarray, int]:
-    
+def DFP_search(
+    grad: Callable[[np.ndarray], np.ndarray],
+    x0: np.ndarray,
+    lr: float = 1.0,
+    epsilon: float = 1e-5,
+    max_iter: int = 100,
+) -> Tuple[np.ndarray, int]:
+
     """
     Computes Davidon-Fletcher-Powell method
-    
+
     Arguments
     ---------
     grad :
@@ -299,10 +304,10 @@ def DFP_search(grad: Callable[[np.ndarray], np.ndarray],
     lr :
         Learning rate
     epsilon :
-        Tolerance stop condition, permissible error 
+        Tolerance stop condition, permissible error
     max_iter :
         Maximum number of iterations
-    
+
     Returns
     -------
     xk :
@@ -329,14 +334,14 @@ def DFP_search(grad: Callable[[np.ndarray], np.ndarray],
         p = lr * dj
         xk_current = xk + lr * dj
         q = grad(xk_current) - grad(xk)
-        
+
         # Compute inverse Hessian matrix
         Dk = (
             Dk
             + np.outer(p, p) / np.inner(q, p)
             - (Dk @ np.outer(q, q) @ Dk.T) / (q.T @ Dk @ q)
         )
-        
+
         # Update next point
         xk = xk_current
 
@@ -347,8 +352,31 @@ def DFP_search(grad: Callable[[np.ndarray], np.ndarray],
 
 
 def _alpha_linesearch_secant(xk, grad, d, epsilon=1e-3, max_iter=100):
-    """Computes LineSearch using secant method
-    http://home.cc.umanitoba.ca/~lovetrij/cECE7670/2005/Assignments/Line%20Search.pdf"""
+    """
+    Computes LineSearch using secant method
+
+    Arguments
+    ---------
+    xk :
+        Current point for the solution
+    grad :
+        Gradient of the function to minimize
+    d :
+        Current directional vector
+    epsilon :
+        Stop condition, permissible error
+    max_iter :
+        Maximum number of iterations
+
+    Returns
+    -------
+    alpha :
+        Alpha value found
+
+    REF:
+        http://home.cc.umanitoba.ca/~lovetrij/cECE7670/2005/Assignments/Line%20Search.pdf
+
+    """
 
     # Save alpha
     alpha_cur = 0
@@ -380,8 +408,29 @@ def _alpha_linesearch_secant(xk, grad, d, epsilon=1e-3, max_iter=100):
 
 
 def fletcher_reeves(grad, x0, epsilon=1e-3, max_iter=100, tolerance=1e-8):
-    """Computes conjugate gradient descent using Fletcher-Reeves method"""
+    """
+    Computes conjugate gradient descent using Fletcher-Reeves method
 
+    Arguments
+    ---------
+    grad :
+        Gradient of the function to minimize
+    x0 :
+        Initial point for the solution
+    epsilon :
+        Stop condition, permissible error
+    tolerance :
+        Tolerance stop condition
+    max_iter :
+        Maximum number of iterations
+
+    Returns
+    -------
+    xk :
+        Optimal solution found
+    it:
+        Final number of iterations computed
+    """
     # Initial conditions
     xk = x0.copy()
     converged = False

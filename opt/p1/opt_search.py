@@ -5,25 +5,60 @@
 @author: <gloria.valle@estudiante.uam.es>
 """
 import numpy as np
+from typing import Callable, Tuple, List
 
 
-def dichotomic_search(
-    func, lower_bound, upper_bound, uncertainty_length, epsilon, max_iter=100
-):
-    """Computes dicotomic search"""
+def dichotomic_search(func: Callable[[float], float],
+                      lower_bound: float, 
+                      upper_bound: float, 
+                      uncertainty_length: float, 
+                      epsilon: float, 
+                      max_iter: int = 100
+)-> Tuple[float, float, int]:
+    """
+    Computes dicotomic search
+    
+    Arguments
+    ---------
+    func :
+        Function to minimize
+    lower_bound :
+        Lower bound initial interval
+    upper_bound :
+        Upper bound initial interval
+    uncertainty_length :
+        Maximum length interval with optimal value
+    epsilon:
+        Half length uncertainty intervals
+    max_iter :
+        Maximum number of iterations
+    
+    Returns
+    -------
+    lower_bound : float
+        Lower bound final interval
+    upper_bound : float
+        Upper bound final interval
+    it:
+        Final number of iterations computed
+    
+    """
 
     converged = False
 
     for it in range(max_iter):
-
+        
+        # Check stop condition
         if upper_bound - lower_bound < uncertainty_length:
             converged = True
             break
 
+        # Define new bounds
         mid_point = 0.5 * (upper_bound + lower_bound)
         lambda_k = mid_point - epsilon
         mu_k = mid_point + epsilon
 
+        # Update uncertainty interval
         if func(lambda_k) < func(mu_k):
             upper_bound = mu_k
         else:
@@ -35,8 +70,39 @@ def dichotomic_search(
     return lower_bound, upper_bound, it
 
 
-def golden_search(func, lower_bound, upper_bound, uncertainty_length, max_iter=100):
-    """Computes Golden search method"""
+def golden_search(func: Callable[[float], float],
+                  lower_bound: float, 
+                  upper_bound: float, 
+                  uncertainty_length: float, 
+                  max_iter: int = 100
+)-> Tuple[float, float, int]:
+    
+    """
+    Computes Golden search method.
+    
+    Arguments
+    ---------
+    func :
+        Function to minimize
+    lower_bound :
+        Lower bound initial interval
+    upper_bound :
+        Upper bound initial interval
+    uncertainty_length :
+        Maximum length interval with optimal value
+    max_iter :
+        Maximum number of iterations
+    
+    Returns
+    -------
+    lower_bound :
+        Lower bound final interval
+    upper_bound :
+        Upper bound final interval
+    it:
+        Final number of iterations computed
+    
+    """
 
     converged = False
     golden_alpha = 0.618
@@ -47,15 +113,17 @@ def golden_search(func, lower_bound, upper_bound, uncertainty_length, max_iter=1
     def update_mu(lower_bound, upper_bound, golden_alpha):
         return lower_bound + golden_alpha * (upper_bound - lower_bound)
 
+    # Initial bounds
     lambda_k = update_lambda(lower_bound, upper_bound, golden_alpha)
     mu_k = update_mu(lower_bound, upper_bound, golden_alpha)
 
     for it in range(max_iter):
-
+        # Check stop condition
         if upper_bound - lower_bound < uncertainty_length:
             converged = True
             break
 
+        # Update bounds and uncertainty interval 
         if func(lambda_k) > func(mu_k):
             lower_bound = lambda_k
             lambda_k = mu_k
@@ -66,20 +134,53 @@ def golden_search(func, lower_bound, upper_bound, uncertainty_length, max_iter=1
             lambda_k = update_lambda(lower_bound, upper_bound, golden_alpha)
 
     if converged == False:
-        print(f"Dichotomic search has divergenced.")
+        print(f"Golden search search has divergenced.")
 
     return lower_bound, upper_bound, it
 
 
-# https://programmerclick.com/article/68471751254/
-def HJ_search(func, x0, lambd=1.0, alpha=1.0, beta=0.5, epsilon=1e-3, max_iter=100):
-    """Computes Hooke-Jeeves method
-    x0 : punto inicial
-    lambd : paso de búsqueda de detección inicial
-    alfa (alfa> = 1) : factor de aceleración
-    beta (0 <beta <1) : tasa de reducción
-    epsilon  (epsilon> 0) : error permisible
+def HJ_search(func: Callable[[float], float],
+              x0: np.ndarray, 
+              lambd: float = 1.0, 
+              alpha: float = 1.0, 
+              beta: float = 0.5, 
+              epsilon: float = 1e-3, 
+              max_iter: int =100
+)-> Tuple[np.ndarray, int]:
     """
+    Computes Hooke-Jeeves method.
+    
+    Arguments
+    ---------
+    func :
+        Function to minimize
+    x0 :
+        Initial point for the solution
+    lambd :
+        Initial detection search step
+    alfa :
+        alfa >= 1
+        Acceleration factor
+    beta:
+        0 < beta < 1
+        Reduction rate
+    epsilon:
+        Tolerance stop condition, permissible error   
+    max_iter :
+        Maximum number of iterations
+    
+    Returns
+    -------
+    xk :
+        Optimal solution found
+    it:
+        Final number of iterations computed
+        
+    REF: 
+        https://programmerclick.com/article/68471751254/
+    
+    """
+    
     # Save initial points
     converged = False
     xk = x0.copy()
@@ -92,16 +193,19 @@ def HJ_search(func, x0, lambd=1.0, alpha=1.0, beta=0.5, epsilon=1e-3, max_iter=1
         if lambd < epsilon:
             converged = True
             break
-
+        
+        # for each dimensions
         for i in range(n):
             d = np.zeros(n)
             d[i] = 1
-
+            
+            # Update optimal directions 
             if func(yk + lambd * d) < func(yk):
                 yk = yk + lambd * d
             elif func(yk - lambd * d) < func(yk):
                 yk = yk - lambd * d
-
+        
+        # Update points 
         if func(yk) < func(xk):
             xk = yk
             yk = yk + alpha * (yk - xk)
@@ -114,21 +218,52 @@ def HJ_search(func, x0, lambd=1.0, alpha=1.0, beta=0.5, epsilon=1e-3, max_iter=1
     return xk, it
 
 
-def newton_search(grad, hessian, x0, lr=1.0, epsilon=1e-5, max_iter=100):
-    """Computes Newton search method"""
+def newton_search(grad: Callable[[np.ndarray], np.ndarray], 
+                  hessian:  Callable[[np.ndarray], np.ndarray],
+                  x0: np.ndarray,
+                  lr: float = 1.0, 
+                  epsilon: float = 1e-5, 
+                  max_iter:int = 100
+)-> Tuple[np.ndarray, int]:
+    
+    """
+    Computes Newton search method.
+    
+    Arguments
+    ---------
+    grad :
+        Gradient of the function to minimize
+    hessian : 
+        Hessian of the function to minimize
+    x0 :
+        Initial point for the solution
+    lr :
+        Learning rate
+    epsilon :
+        Tolerance stop condition, permissible error 
+    max_iter :
+        Maximum number of iterations
+    
+    Returns
+    -------
+    xk :
+        Optimal solution found
+    it:
+        Final number of iterations computed
+    """
 
     # Save initial values
     xk = x0.copy()
     converged = False
 
     for it in range(max_iter):
-        # Set hessian matrix
+        # Update hessian matrix
         H = hessian(xk)
 
-        # Get H inverse
+        # Compute H inverse
         H_inv = np.linalg.solve(H, np.eye(H.shape[0]))
 
-        # Save next point
+        # Update next point
         xk_current = xk - lr * grad(xk) @ H_inv
 
         # Check stop condition
@@ -136,7 +271,7 @@ def newton_search(grad, hessian, x0, lr=1.0, epsilon=1e-5, max_iter=100):
             converged = True
             break
 
-        # Set next values
+        # Update next values
         xk = xk_current
 
     if not converged:
@@ -145,32 +280,64 @@ def newton_search(grad, hessian, x0, lr=1.0, epsilon=1e-5, max_iter=100):
     return xk, it
 
 
-def DFP_search(grad, x0, lr=1.0, epsilon=1e-5, max_iter=100):
-    """Computes Davidon-Fletcher-Powell method"""
+def DFP_search(grad: Callable[[np.ndarray], np.ndarray], 
+               x0: np.ndarray,
+               lr: float = 1.0, 
+               epsilon: float = 1e-5, 
+               max_iter: int = 100
+)-> Tuple[np.ndarray, int]:
+    
+    """
+    Computes Davidon-Fletcher-Powell method
+    
+    Arguments
+    ---------
+    grad :
+        Gradient of the function to minimize
+    x0 :
+        Initial point for the solution
+    lr :
+        Learning rate
+    epsilon :
+        Tolerance stop condition, permissible error 
+    max_iter :
+        Maximum number of iterations
+    
+    Returns
+    -------
+    xk :
+        Optimal solution found
+    it:
+        Final number of iterations computed
+    """
 
+    # Save initial values
     xk = x0.copy()
-    n = len(xk)
-    Dk = np.eye(n)
+    Dk = np.eye(len(xk))
     converged = False
 
     for it in range(max_iter):
+        # Compute directions
         dj = -grad(xk).T @ Dk
 
+        # Check stop condition
         if np.linalg.norm(grad(xk)) < epsilon:
             converged = True
             break
 
+        # Update values
         p = lr * dj
-
         xk_current = xk + lr * dj
         q = grad(xk_current) - grad(xk)
-
+        
+        # Compute inverse Hessian matrix
         Dk = (
             Dk
             + np.outer(p, p) / np.inner(q, p)
             - (Dk @ np.outer(q, q) @ Dk.T) / (q.T @ Dk @ q)
         )
-
+        
+        # Update next point
         xk = xk_current
 
     if not converged:

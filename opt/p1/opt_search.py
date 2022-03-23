@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Tarea 1. 2. Actividades:
- - Codificar el método de búsqueda Dicotómica.
- - Codificar el método de búsqueda de la Sección Áurea.
 
 @author: <maria.barrosoh@estudiante.uam.es>
+@author: <gloria.valle@estudiante.uam.es>
 """
 import numpy as np
 
@@ -12,6 +10,7 @@ import numpy as np
 def dichotomic_search(
     func, lower_bound, upper_bound, uncertainty_length, epsilon, max_iter=100
 ):
+    """Computes dicotomic search"""
 
     converged = False
 
@@ -37,6 +36,7 @@ def dichotomic_search(
 
 
 def golden_search(func, lower_bound, upper_bound, uncertainty_length, max_iter=100):
+    """Computes Golden search method"""
 
     converged = False
     golden_alpha = 0.618
@@ -73,13 +73,14 @@ def golden_search(func, lower_bound, upper_bound, uncertainty_length, max_iter=1
 
 # https://programmerclick.com/article/68471751254/
 def HJ_search(func, x0, lambd=1.0, alpha=1.0, beta=0.5, epsilon=1e-3, max_iter=100):
-    """
+    """Computes Hooke-Jeeves method
     x0 : punto inicial
     lambd : paso de búsqueda de detección inicial
     alfa (alfa> = 1) : factor de aceleración
     beta (0 <beta <1) : tasa de reducción
     epsilon  (epsilon> 0) : error permisible
     """
+    # Save initial points
     converged = False
     xk = x0.copy()
     yk = xk.copy()
@@ -87,6 +88,7 @@ def HJ_search(func, x0, lambd=1.0, alpha=1.0, beta=0.5, epsilon=1e-3, max_iter=1
     k = 1
 
     for it in range(max_iter):
+        # Check stop condition
         if lambd < epsilon:
             converged = True
             break
@@ -113,20 +115,28 @@ def HJ_search(func, x0, lambd=1.0, alpha=1.0, beta=0.5, epsilon=1e-3, max_iter=1
 
 
 def newton_search(grad, hessian, x0, lr=1.0, epsilon=1e-5, max_iter=100):
+    """Computes Newton search method"""
 
+    # Save initial values
     xk = x0.copy()
     converged = False
 
     for it in range(max_iter):
+        # Set hessian matrix
         H = hessian(xk)
+
+        # Get H inverse
         H_inv = np.linalg.solve(H, np.eye(H.shape[0]))
 
+        # Save next point
         xk_current = xk - lr * grad(xk) @ H_inv
 
+        # Check stop condition
         if np.linalg.norm(xk_current - xk) < epsilon:
             converged = True
             break
 
+        # Set next values
         xk = xk_current
 
     if not converged:
@@ -135,7 +145,8 @@ def newton_search(grad, hessian, x0, lr=1.0, epsilon=1e-5, max_iter=100):
     return xk, it
 
 
-def DFP_search(func, grad, x0, lr=1.0, epsilon=1e-5, max_iter=100):
+def DFP_search(grad, x0, lr=1.0, epsilon=1e-5, max_iter=100):
+    """Computes Davidon-Fletcher-Powell method"""
 
     xk = x0.copy()
     n = len(xk)
@@ -169,23 +180,32 @@ def DFP_search(func, grad, x0, lr=1.0, epsilon=1e-5, max_iter=100):
 
 
 def _alpha_linesearch_secant(xk, grad, d, epsilon=1e-3, max_iter=100):
+    """Computes LineSearch using secant method
+    http://home.cc.umanitoba.ca/~lovetrij/cECE7670/2005/Assignments/Line%20Search.pdf"""
+
+    # Save alpha
     alpha_cur = 0
     alpha = 0.5
 
+    # Compute derivative gradient
     der_x0 = grad(xk).T @ d
     der = der_x0
 
     for it in range(max_iter):
+        # Compute new step
         alpha_old = alpha_cur
         alpha_cur = alpha
         der_old = der
         der = grad(xk + alpha_cur * d).T @ d
 
+        # Check stop condition
         if der < epsilon:
             break
 
+        # Save next alpha
         alpha = (der * alpha_old - der_old * alpha_cur) / (der - der_old)
 
+        # Check final stop condition
         if np.abs(der) < epsilon * np.abs(der_x0):
             break
 
@@ -193,6 +213,7 @@ def _alpha_linesearch_secant(xk, grad, d, epsilon=1e-3, max_iter=100):
 
 
 def fletcher_reeves(grad, x0, epsilon=1e-3, max_iter=100, tolerance=1e-8):
+    """Computes conjugate gradient descent using Fletcher-Reeves method"""
 
     # Initial conditions
     xk = x0.copy()
@@ -230,6 +251,6 @@ def fletcher_reeves(grad, x0, epsilon=1e-3, max_iter=100, tolerance=1e-8):
 
         # Save actual values
         g_old = g
-        xk = xk + alpha * d
+        xk = xn
 
     return xk, it

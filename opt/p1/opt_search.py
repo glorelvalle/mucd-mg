@@ -192,7 +192,7 @@ def _alpha_linesearch_secant(xk, grad, d, epsilon=1e-3, max_iter=100):
     return alpha
 
 
-def fletcher_reeves(grad, x0, epsilon=1e-3, max_iter=100):
+def fletcher_reeves(grad, x0, epsilon=1e-3, max_iter=100, tolerance=1e-8):
 
     # Initial conditions
     xk = x0.copy()
@@ -221,6 +221,12 @@ def fletcher_reeves(grad, x0, epsilon=1e-3, max_iter=100):
 
         # Step size
         alpha = _alpha_linesearch_secant(xk, grad, d)
+
+        xn = xk + alpha * d
+
+        if np.linalg.norm(xn - xk) < tolerance * np.linalg.norm(xk):
+            print("Tolerance in xk is reached in %d iterations." % (it))
+            break
 
         # Save actual values
         g_old = g

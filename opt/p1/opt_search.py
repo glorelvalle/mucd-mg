@@ -168,6 +168,30 @@ def DFP_search(func, grad, x0, lr=1.0, epsilon=1e-5, max_iter=100):
     return xk, it
 
 
+def _alpha_linesearch_secant(xk, grad, d, epsilon=1e-3, max_iter=100):
+    alpha_cur = 0
+    alpha = 0.5
+
+    der_x0 = grad(xk).T @ d
+    der = der_x0
+
+    for it in range(max_iter):
+        alpha_old = alpha_cur
+        alpha_cur = alpha
+        der_old = der
+        der = grad(xk + alpha_cur * d).T @ d
+
+        if der < epsilon:
+            break
+
+        alpha = (der * alpha_old - der_old * alpha_cur) / (der - der_old)
+
+        if np.abs(der) < epsilon * np.abs(der_x0):
+            break
+
+    return alpha
+
+
 def fletcher_reeves(grad, x0, epsilon=1e-3, max_iter=100):
 
     # Initial conditions
@@ -185,7 +209,7 @@ def fletcher_reeves(grad, x0, epsilon=1e-3, max_iter=100):
             break
 
         # Save directional vector first it
-        if it == 1:
+        if it == 0:
             d = -g
             g_old = g
 
@@ -196,7 +220,7 @@ def fletcher_reeves(grad, x0, epsilon=1e-3, max_iter=100):
         d = -g + beta * d
 
         # Step size
-        alpha = np.argmin(grad(xk + alpha * d))  ###
+        alpha = _alpha_linesearch_secant(xk, grad, d)
 
         # Save actual values
         g_old = g

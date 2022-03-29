@@ -144,6 +144,7 @@ pln/aspects/*.csv
 pln/modifiers/modifiers.csv
 pln/vader_lexicon/vader_lexicon.csv
 pln/yelp_dataset/*.json
+pln/amazon/*.json
 
 mf/p2/*.csv
 

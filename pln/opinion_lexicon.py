@@ -194,7 +194,7 @@ def get_information(head, relation, dependent, data, dict_inf, aspect, aspects_t
 def analyze_review(idx, review, aspects_type):
     data = pd.DataFrame(columns=["aspect", "opinion_word", "aspect_term", "polarity"])
     dependency_parser = CoreNLPDependencyParser()
-
+    text = review
     review = clean(review)
     sentences = nltk.sent_tokenize(review)
     for s in sentences:
@@ -206,6 +206,6 @@ def analyze_review(idx, review, aspects_type):
                 head, relation, dependent, data, dict_inf, aspect, aspects_type
             )
         data, _, _ = save_and_reset_information(data, dict_inf, aspect)
-    data["review_id"] = idx
-    data = data.set_index("review_id")
+    data["review_id"] = int(idx)
+    data["text"] = text
     return data

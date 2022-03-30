@@ -21,7 +21,7 @@ def extract_aspects(review):
     aspects = []
     for term in review.iterrows():
         aspects.append(term[1]["aspect"])
-    return {aspect: color for (aspect, color) in zip(np.unique(aspects), colors)}
+    return {aspect: color for (aspect, color) in zip(aspects, colors)}
 
 
 def count_polarity(review, aspects):
@@ -48,7 +48,7 @@ def parse_colors(review, aspects):
         phrase = term[1]["aspect_term"]
         if aspect not in aspects:
             continue
-        start = term[1]["text"].find(phrase)
+        start = term[1]["text"].lower().find(phrase)
         if start == -1:
             continue
         end = start + len(phrase)
@@ -66,7 +66,7 @@ def parse_colors(review, aspects):
 def underline(text, color, score):
     if score == 0.0:
         bg = "#92C5F0"
-    elif score == 1.0:
+    elif score > 0.0:
         bg = "#BFF0C0"
     else:
         bg = "#F09892"
@@ -83,7 +83,10 @@ def bold_adjs(review, adjs):
     return review
 
 
-def draw_review(review, color_map):
+def draw_review(
+    review,
+    color_map,
+):
     if len(color_map) < 1:
         return review
     text = review[: color_map[0][0]]
@@ -125,9 +128,11 @@ def create_html(review, aspects_score, color_map, review_id):
 
 def review_to_html(review, review_id):
     aspects = extract_aspects(review)
-    aspects_score = count_polarity(review, aspects)
-    color_map = parse_colors(review, aspects)
-    return create_html(review, aspects_score, color_map, review_id)
+    if aspects:
+        aspects_score = count_polarity(review, aspects)
+        color_map = parse_colors(review, aspects)
+        return create_html(review, aspects_score, color_map, review_id)
+    return "We didn't find any aspect."
 
 
 def run_display(review_id, review):

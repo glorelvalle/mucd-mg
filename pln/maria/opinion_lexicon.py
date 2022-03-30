@@ -7,8 +7,11 @@ nltk.download("sentiwordnet")
 
 from nltk.stem import WordNetLemmatizer
 from nltk.sentiment.vader import VaderConstants
+from nltk.sentiment import SentimentIntensityAnalyzer
+
 from nltk.corpus import wordnet as wn
 from nltk.corpus import sentiwordnet as swn
+
 
 
 def load_modifiers():
@@ -37,41 +40,46 @@ def get_polarity_score(sentence):
     constants = VaderConstants().BOOSTER_DICT
     modifiers = load_modifiers()
     constants = extend_vader(constants, modifiers)
-    
-    polarity = 1
-    modifier = 0
-    
+    sid = SentimentIntensityAnalyzer()
+
+    polarity = 1.0
     for word, tag in after_tagging:
+        word = word.lower()
         wn_tag = penn_to_wn(tag)
         if wn_tag not in (wn.NOUN, wn.ADJ, wn.ADV): continue
 
         lemma = lemmatizer.lemmatize(word, pos=wn_tag)
         if not lemma: continue
             
-        synsets = wn.synsets(lemma, pos=wn_tag)
-        
         # modifiers ('boosters') given in the NTLK Vader sentiment opinion module and modifier.csv
-        if not synsets and word in constants:
-            modifier += float(constants[word])
-            continue
+        if word in constants:
+            boost = float(constants[word])
+            if boost > 0.0 and polarity > 0.0: polarity += boost
+            elif boost > 0.0 and polarity < 0.0: polarity -= boost
+            elif boost < 0.0 and polarity > 0.0: 
+                polarity += abs(boost)
+                polarity *= -1
+            elif boost < 0.0 and polarity < 0.0:
+                polarity -= boost
+                polarity *= -1
+            continue            
 
-        # Take the first sense, the most common
-        synset = synsets[0]
-        swn_synset = swn.senti_synset(synset.name())
-
-        # Compute different between positive and negative
-        diff = swn_synset.pos_score() - swn_synset.neg_score()
-        if diff != 0: polarity *= diff
-        if polarity>0.0: polarity += abs(diff)
-        if polarity<0.0: polarity -= abs(diff)
-            
-    # Modify sentence sentiment regarding polarity
-    if polarity < 0.0: polarity -= abs(modifier)
-    elif polarity > 0.0:
-        if modifier > 0.0: polarity += modifier
-        elif modifier < 0.0: polarity = polarity*modifier - abs(modifier)
-    else: polarity += modifier
+        # Polarity score returns dictionary
+        ss_compound = sid.polarity_scores(lemma)['compound']
+        if ss_compound == 0.0:
+            synsets = wn.synsets(lemma, pos=wn_tag)
+            if not synsets:
+                continue
+            # Take the first sense, the most common
+            swn_synset = swn.senti_synset(synsets[0].name())
+            # Compute different between positive and negative
+            ss_compound = swn_synset.pos_score() - swn_synset.neg_score()
         
+        if ss_compound != 0.0: polarity *= ss_compound
+        if polarity>0.0: polarity += abs(ss_compound)
+        if polarity<0.0: polarity -= abs(ss_compound)
+         
+              
     return polarity
 
 def get_polarity(sentence):

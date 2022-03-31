@@ -14,6 +14,7 @@ from nltk.corpus import sentiwordnet as swn
 
 
 def load_modifiers():
+    """ Load modifier word and value score in modifiers/modifiers.csv"""
     reader = csv.reader(open("modifiers/modifiers.csv", "r"))
     modifier = {}
     for (k, v) in reader:
@@ -22,6 +23,7 @@ def load_modifiers():
 
 
 def extend_vader(constants, modifiers):
+    """ Extend modifier of constant vader with new values of modifiers """
     for key_modifier in modifiers:
         if key_modifier not in constants:
             constants[key_modifier] = modifiers[key_modifier]
@@ -29,6 +31,7 @@ def extend_vader(constants, modifiers):
 
 
 def penn_to_wn(tag):
+    """ Convert poss tagging word to wordnet tag """
     if tag.startswith("J"):
         return wn.ADJ
     elif tag.startswith("N"):
@@ -41,6 +44,7 @@ def penn_to_wn(tag):
 
 
 def get_polarity_score(sentence):
+    """ Compute polarity of a sentence using SentimentIntensityAnalyzer, sentiwordnet and modifiers.  """
     lemmatizer = WordNetLemmatizer()
     token = nltk.word_tokenize(sentence)
     after_tagging = nltk.pos_tag(token)
@@ -59,8 +63,7 @@ def get_polarity_score(sentence):
         lemma = lemmatizer.lemmatize(word, pos=wn_tag)
         if not lemma:
             continue
-
-        # modifiers ('boosters') given in the NTLK Vader sentiment opinion module and modifier.csv
+        # Boost polarity with modifier values
         if word in constants:
             boost = float(constants[word])
             if boost > 0.0 and polarity > 0.0:
@@ -75,7 +78,6 @@ def get_polarity_score(sentence):
                 polarity *= -1
             continue
 
-        # Polarity score returns dictionary
         ss_compound = sid.polarity_scores(lemma)["compound"]
         if ss_compound == 0.0:
             synsets = wn.synsets(lemma, pos=wn_tag)
@@ -85,18 +87,19 @@ def get_polarity_score(sentence):
             swn_synset = swn.senti_synset(synsets[0].name())
             # Compute different between positive and negative
             ss_compound = swn_synset.pos_score() - swn_synset.neg_score()
-
+        
         if ss_compound != 0.0:
             polarity *= ss_compound
         if polarity > 0.0:
             polarity += abs(ss_compound)
-        if polarity < 0.0:
+        elif polarity < 0.0:
             polarity -= abs(ss_compound)
 
     return polarity
 
 
 def get_polarity(sentence):
+    """ Get discrete values of polarity {-1, 0, 1} """
     polarity = get_polarity_score(sentence)
     if polarity > 0.0:
         return 1.0

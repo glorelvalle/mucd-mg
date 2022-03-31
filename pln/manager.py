@@ -11,6 +11,7 @@ sid = SentimentIntensityAnalyzer()
 
 
 def extend_aspects(aspects):
+    """ Extend aspect vocabulary with synsets wordnet """
     for key in aspects:
         synsets = wn.synsets(key)
         for synset in synsets:

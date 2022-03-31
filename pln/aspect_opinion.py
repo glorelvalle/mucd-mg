@@ -6,16 +6,14 @@ from nltk.parse.corenlp import CoreNLPDependencyParser
 
 import opinion_lexicon as OP
 
-
-# Define a function to clean the text
 def clean(text):
-    # Removes all special characters and numericals leaving the alphabets
+    """ Removes all special characters and numericals leaving the alphabets """
     text = re.sub(r"[()\"#/@;<>{}`+=~|!?]", "", text)
     text = re.sub(r"[.]", ". ", text)
     return text
 
-
 def get_aspect(word, aspects_type):
+    """ Find aspect topic of a word in dict aspects_type """
     if word in aspects_type:
         return word
     for key in aspects_type:
@@ -24,11 +22,13 @@ def get_aspect(word, aspects_type):
 
 
 def get_polarity(dict_inf):
+    """ Get the polarity of the sentence composed by the opinion_word and aspect_term in dict_inf """
     sentence = dict_inf["opinion_word"] + " " + dict_inf["aspect_term"]
     return OP.get_polarity(sentence)
 
 
 def insert_just_before(dict_inf, item_type, word1, word2):
+    """ Insert word2 just before than word1 in dict_inf[item_type] """
     word_list = dict_inf[item_type].split()
     idx = word_list.index(word1)
     new_split = [word2]
@@ -38,20 +38,20 @@ def insert_just_before(dict_inf, item_type, word1, word2):
 
 
 def save_and_reset_information(data, dict_inf, aspect):
+    """ Save new tuple in dataframe data if is an opinion word wich an aspect of the vocabulary dict. 
+        Reset current info for deafult values. """
     if aspect != None and "opinion_word" in dict_inf:
         dict_inf["aspect"] = aspect.upper()
         dict_inf["polarity"] = get_polarity(dict_inf)
-        # save new info
         data = data.append(dict_inf, ignore_index=True)
 
-    # reset
     dict_inf = {}
     aspect = None
     return data, dict_inf, aspect
 
 
-# MAIN CODE RULES
 def compute_rules(head, relation, dependent, data, dict_inf, aspect, aspects_type):
+    """ Compute rules of grammar to find opinion_word and aspect_terms. """
     word1, pos1 = head
     word2, pos2 = dependent
 
@@ -112,6 +112,8 @@ def compute_rules(head, relation, dependent, data, dict_inf, aspect, aspects_typ
 
 
 def get_aspect_opinion(idx, review, aspects_type):
+    """ Main code to get all the tuples from a review and save it in a dataframe """
+    
     data = pd.DataFrame(columns=["aspect", "opinion_word", "aspect_term", "polarity"])
     dependency_parser = CoreNLPDependencyParser()
 

@@ -1,1 +1,1 @@
-Open p1_barroso_valle.ipynb for a better visualization of all results, because p1_barroso_valle.html does not have all colors.
+Open p1_barroso_valle.html for a better visualization of all results, because p1_barroso_valle.ipynb needs to be re-executed.

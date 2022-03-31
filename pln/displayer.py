@@ -118,8 +118,7 @@ def create_html(review, aspects_score, color_map, review_id):
     text, adjs = draw_review(review["text"][0], color_map)
     return f"""
     <html>
-    <h1>Review {review_id} </h1>
-    <center>{html_scores(aspects_score)}</center>
+    {html_scores(aspects_score)}
     <br></br>
     <div style="font-size: large">{bold_adjs(text, adjs)}</div>
     </html>
@@ -135,5 +134,9 @@ def review_to_html(review, review_id):
     return "We didn't find any aspect."
 
 
-def run_display(review_id, review):
-    display(HTML(review_to_html(review, review_id)))
+def run_display(review_id, df_review, review_text):
+    display(HTML(f"<html><h1>Review {review_id}</h1></html>"))
+    display(df_review)    
+    df_review['text'] = review_text
+    df_review = df_review.reset_index()
+    display(HTML(review_to_html(df_review, review_id)))

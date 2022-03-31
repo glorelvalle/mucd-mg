@@ -42,6 +42,21 @@ def count_polarity(review, aspects):
     }
 
 
+def highlight_aspects(text, color, polarity):
+    """Sets colors for polarity"""
+    if polarity == 0.0:
+        bg = "#92C5F0"
+    elif polarity > 0.0:
+        bg = "#BFF0C0"
+    else:
+        bg = "#F09892"
+    return (
+        f'<u style="text-decoration: underline dotted;text-decoration-color: {color}; text-decoration-thickness:5px; background-color: {bg}"">'
+        + text
+        + "</u>"
+    )
+
+
 def parse_colors(review, aspects):
     """Finds determined word to highlight"""
     p_colors = []
@@ -64,21 +79,6 @@ def parse_colors(review, aspects):
             (start, end, term[1]["polarity"], aspects[aspect], term[1]["opinion_word"])
         )
     return p_colors
-
-
-def highlight_aspects(text, color, polarity):
-    """Sets colors for polarity"""
-    if polarity == 0.0:
-        bg = "#92C5F0"
-    elif polarity > 0.0:
-        bg = "#BFF0C0"
-    else:
-        bg = "#F09892"
-    return (
-        f'<u style="text-decoration: underline dotted;text-decoration-color: {color}; text-decoration-thickness:5px; background-color: {bg}"">'
-        + text
-        + "</u>"
-    )
 
 
 def bold_adjs(review, adjs):
@@ -105,25 +105,18 @@ def review_colored(review, color_map):
     return text, adjs
 
 
-def html_polarity(aspects_polarity):
-    """Returns an HTML table for an aspects legend"""
+def create_html(review, aspects_polarity, color_map):
+    """Returns a HTML format for a given review text"""
+    text, adjs = review_colored(review["text"][0], color_map)
     html_list = ""
     for aspect, data in aspects_polarity.items():
         html_list += f'<tr><td> <p style="text-decoration:underline dotted;text-decoration-color: {data["color"]}; text-decoration-thickness:5px;">{aspect}</p></td><td>{data["polarity"]:.1f}</td></tr>\n'
     return f"""
+    <html>
     <h4> Polarity </h4>
     <table>
     {html_list}
     </table>
-    """
-
-
-def create_html(review, aspects_polarity, color_map):
-    """Returns a HTML format for a given review text"""
-    text, adjs = review_colored(review["text"][0], color_map)
-    return f"""
-    <html>
-    {html_polarity(aspects_polarity)}
     <br></br>
     <div style="font-size: large">{bold_adjs(text, adjs)}</div>
     </html>

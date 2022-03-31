@@ -11,7 +11,7 @@ sid = SentimentIntensityAnalyzer()
 
 
 def extend_aspects(aspects):
-    """ Extend aspect vocabulary with synsets wordnet """
+    """Extend aspect vocabulary with synsets wordnet"""
     for key in aspects:
         synsets = wn.synsets(key)
         for synset in synsets:
@@ -21,6 +21,7 @@ def extend_aspects(aspects):
 
 
 def clean_nlp(review_text):
+    """Cleans all punctuations and mayus from a given text"""
     review_text = review_text.replace("<br />", " ")
     review_text = review_text.replace("\[?\[.+?\]?\]", " ")
     review_text = review_text.replace("\/{3,}", " ")
@@ -37,7 +38,7 @@ def clean_nlp(review_text):
 
 
 def rule1(doc):
-    """Sentiment modifier + Aspect"""
+    """Sentiment modifier + Aspect, assuming m is a child of a with an amod relationship"""
     rule = []
     for token in doc:
         m, a = "", ""
@@ -60,6 +61,7 @@ def rule1(doc):
 
 
 def rule2(doc):
+    """Sentiment modifier + Aspect, assuming a is a child of somethinf that is a nsubj, and m is a child of something with dobj"""
     rule = []
     for token in doc:
         children = token.children
@@ -84,6 +86,7 @@ def rule2(doc):
 
 
 def rule3(doc):
+    """Sentiment modifier + Aspect, assuming a is a child with relationship of nsubj and m is acomp"""
     rule = []
     for token in doc:
         children = token.children
@@ -113,6 +116,7 @@ def rule3(doc):
 
 
 def rule4(doc):
+    """Sentiment modifier + Aspect, a is a child of nsubjpass while m is advmod"""
     rule = []
     for token in doc:
         children = token.children
@@ -145,6 +149,7 @@ def rule4(doc):
 
 
 def rule5(doc):
+    """Sentiment modifier + Aspect, assuming a is a child of m with nsubj while m is cop"""
     rule = []
     for token in doc:
         children = token.children
@@ -162,6 +167,7 @@ def rule5(doc):
 
 
 def rule6(doc):
+    """Sentiment modifier + Aspect, treating interjections"""
     rule = []
     for token in doc:
         children = token.children
@@ -178,6 +184,7 @@ def rule6(doc):
 
 
 def rule7(doc):
+    """Sentiment modifier + Aspect, link between a verb and its complement"""
     rule = []
     for token in doc:
         children = token.children
@@ -202,6 +209,7 @@ def rule7(doc):
 
 
 def compute_rules(row):
+    """Computes all rules from a given review text"""
     reviewer_id = row["reviewerID"]
     hotel_id = row["asin"]
     review_text = clean_nlp(row["reviewText"])
@@ -232,4 +240,5 @@ def compute_rules(row):
 
 
 def run(dataset):
+    """Computes all rules from a given dataset"""
     return [compute_rules(row) for row in dataset]

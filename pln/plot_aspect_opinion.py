@@ -5,7 +5,7 @@ import itertools
 
 
 def compute_cloud_opinion_word(data_aspect, aspect_name):
-    """ Display cloud opinion word of positive and negative aspect in data_aspect """
+    """Display cloud opinion word of positive and negative aspect in data_aspect"""
     data_aspect_pos = data_aspect[data_aspect.polarity == 1.0]
     data_aspect_neg = data_aspect[data_aspect.polarity == -1.0]
 
@@ -42,7 +42,7 @@ def compute_cloud_opinion_word(data_aspect, aspect_name):
 
 
 def plot_pie(df_aspect_polarity):
-    """ Display a pie plot with total of aspect opinions and with total of positive/negative opinions """
+    """Display a pie plot with total of aspect opinions and with total of positive/negative opinions"""
     labels_aspect = list(df_aspect_polarity.index.values)
     sizes_aspect = list(df_aspect_polarity.neg.values + df_aspect_polarity.pos.values)
 

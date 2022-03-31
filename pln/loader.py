@@ -2,7 +2,7 @@ import json
 
 
 def load_all_json_yelp(data_name, data_path="yelp_dataset"):
-    """ Load all rows of a json file in data_path """
+    """Load all rows of a json file in data_path"""
     with open(f"{data_path}/{data_name}.json", encoding="utf-8") as f:
         reviews = json.load(f)
     numReviews = len(reviews)
@@ -11,7 +11,7 @@ def load_all_json_yelp(data_name, data_path="yelp_dataset"):
 
 
 def load_by_line_json_yelp(data_name, data_path="yelp_dataset"):
-    """ Load line by line the rows of a json file in data_path """
+    """Load line by line the rows of a json file in data_path"""
     reviews = []
     with open(f"{data_path}/{data_name}.json", encoding="utf-8") as f:
         f.readline()  # first line '['
@@ -29,7 +29,7 @@ def load_by_line_json_yelp(data_name, data_path="yelp_dataset"):
 
 
 def load_huge_file(data_name, data_path="amazon", limit=8898040):
-    """ Load line by line a huge json file in data_path. It force to a limit because of computacional time """
+    """Load line by line a huge json file in data_path. It forces a limit because of computacional time"""
     reviews = []
     with open(f"{data_path}/{data_name}.json", encoding="utf-8") as f:
         f.readline()  # first line '['
@@ -45,7 +45,7 @@ def load_huge_file(data_name, data_path="amazon", limit=8898040):
 
 
 def load_aspects(data_name, data_path="aspects"):
-    """ Load aspect vocabulary in data_path """
+    """Load aspect vocabulary in data_path"""
     with open(f"{data_path}/{data_name}.csv", encoding="utf-8") as f:
         aspects = {}
         for line in f:

@@ -18,6 +18,7 @@ colors = itertools.cycle(
 
 
 def extract_aspects(review):
+    """Extract all aspects from a given review"""
     aspects = []
     for term in review.iterrows():
         aspects.append(term[1]["aspect"])
@@ -25,6 +26,7 @@ def extract_aspects(review):
 
 
 def count_polarity(review, aspects):
+    """Computes polarity mean from all scores for each aspect"""
     return {
         aspect: {
             "polarity": np.mean(
@@ -41,6 +43,7 @@ def count_polarity(review, aspects):
 
 
 def parse_colors(review, aspects):
+    """Finds determined word to highlight"""
     p_colors = []
     prev_end = -1
     for term in review.iterrows():
@@ -63,10 +66,11 @@ def parse_colors(review, aspects):
     return p_colors
 
 
-def underline(text, color, score):
-    if score == 0.0:
+def highlight_aspects(text, color, polarity):
+    """Sets colors for polarity"""
+    if polarity == 0.0:
         bg = "#92C5F0"
-    elif score > 0.0:
+    elif polarity > 0.0:
         bg = "#BFF0C0"
     else:
         bg = "#F09892"
@@ -78,22 +82,21 @@ def underline(text, color, score):
 
 
 def bold_adjs(review, adjs):
+    """Returns bold-style adjectives"""
     for adj in adjs:
         review = re.sub(r"(" + adj + ")", r"<b>\1</b>", review, flags=re.IGNORECASE)
     return review
 
 
-def draw_review(
-    review,
-    color_map,
-):
+def review_colored(review, color_map):
+    """Select zone to highlight from a given text"""
     if len(color_map) < 1:
         return review
     text = review[: color_map[0][0]]
     adjs = []
-    for i, (start, end, score, color, adj) in enumerate(color_map):
+    for i, (start, end, polarity, color, adj) in enumerate(color_map):
         t = review[start:end]
-        text += underline(t, color, score)
+        text += highlight_aspects(t, color, polarity)
         if len(color_map) != i + 1:
             text += review[end : color_map[i + 1][0]]
         else:
@@ -102,9 +105,10 @@ def draw_review(
     return text, adjs
 
 
-def html_scores(aspects_score):
+def html_polarity(aspects_polarity):
+    """Returns an HTML table for an aspects legend"""
     html_list = ""
-    for aspect, data in aspects_score.items():
+    for aspect, data in aspects_polarity.items():
         html_list += f'<tr><td> <p style="text-decoration:underline dotted;text-decoration-color: {data["color"]}; text-decoration-thickness:5px;">{aspect}</p></td><td>{data["polarity"]:.1f}</td></tr>\n'
     return f"""
     <h4> Polarity </h4>
@@ -114,29 +118,32 @@ def html_scores(aspects_score):
     """
 
 
-def create_html(review, aspects_score, color_map, review_id):
-    text, adjs = draw_review(review["text"][0], color_map)
+def create_html(review, aspects_polarity, color_map):
+    """Returns a HTML format for a given review text"""
+    text, adjs = review_colored(review["text"][0], color_map)
     return f"""
     <html>
-    {html_scores(aspects_score)}
+    {html_polarity(aspects_polarity)}
     <br></br>
     <div style="font-size: large">{bold_adjs(text, adjs)}</div>
     </html>
     """
 
 
-def review_to_html(review, review_id):
+def review_to_html(review):
+    """Returns a HTML format for all review"""
     aspects = extract_aspects(review)
     if aspects:
-        aspects_score = count_polarity(review, aspects)
+        aspects_polarity = count_polarity(review, aspects)
         color_map = parse_colors(review, aspects)
-        return create_html(review, aspects_score, color_map, review_id)
+        return create_html(review, aspects_polarity, color_map)
     return "We didn't find any aspect."
 
 
 def run_display(review_id, df_review, review_text):
+    """Run all review analysis"""
     display(HTML(f"<html><h1>Review {review_id}</h1></html>"))
-    display(df_review)    
-    df_review['text'] = review_text
+    display(df_review)
+    df_review["text"] = review_text
     df_review = df_review.reset_index()
-    display(HTML(review_to_html(df_review, review_id)))
+    display(HTML(review_to_html(df_review)))

@@ -127,8 +127,8 @@ def vae_lower_bound(gen_params, rec_params, data):
     # 5 - return an average estimate (per batch point) of the lower bound by substracting the KL to the data dependent term
 
     encoder_output = neural_net_predict(rec_params, data)
-    sampled_latent_variables = sample_latent_variables_from_posterior(encoder_output)
-    decoder_output = neural_net_predict(gen_params, sampled_latent_variables)
+    latent_variables_samples = sample_latent_variables_from_posterior(encoder_output)
+    decoder_output = neural_net_predict(gen_params, latent_variables_samples)
     KL_divergence = compute_KL(encoder_output)
     log_prob = bernoulli_log_prob(data, decoder_output)
 
@@ -208,6 +208,13 @@ if __name__ == '__main__':
     # TODO write here the initial values for the ADAM parameters (including the m and v vectors)
     # you can use np.zeros_like(flattened_current_params) to initialize m and v
 
+    alpha = 0.001
+    beta1 = 0.9
+    beta2 = 0.999
+    epsilon = 10**-8
+    m = np.zeros_like(flattened_current_params)
+    v = np.zeros_like(flattened_current_params)
+
     # We do the actual training
 
     for epoch in range(num_epochs):
@@ -221,8 +228,14 @@ if __name__ == '__main__':
 
             # TODO Use the estimated noisy gradient in grad to update the paramters using the ADAM updates
 
-            elbo_est += objective(flattened_current_params)
+            m = beta1*m + (1-beta1)*grad
+            v = beta2*v + (1-beta2)*grad**2
+            m_unbiased = m/(1-beta1**t)
+            v_unbiased = v/(1-beta2**t)
 
+            flattened_current_params += alpha*m_unbiased/(np.sqrt(v_unbiased)+epsilon)
+            elbo_est += objective(flattened_current_params)
+            
             t += 1
 
         print("Epoch: %d ELBO: %e" % (epoch, elbo_est / np.ceil(N / batch_size)))
@@ -232,10 +245,26 @@ if __name__ == '__main__':
     gen_params, rec_params = unflat_params(flattened_current_params)
 
     # TODO Generate 25 images from prior (use neural_net_predict) and save them using save_images
+    z_prior_samples = npr.randn(25, latent_dim)
+    x_samples = neural_net_predict(rec_params, z_prior_samples)
+    save_images(sigmoide(x_samples), "task_3_1")
 
     # TODO Generate image reconstructions for the first 10 test images (use neural_net_predict for each model) 
     # and save them alongside with the original image using save_images
-        
+    
+    test_first_10_images = test_images[:10]
+    encoder_output = neural_net_predict(rec_params, test_first_10_images)
+    latent_variables_samples = sample_latent_variables_from_posterior(encoder_output)
+    decoder_output = neural_net_predict(gen_params, latent_variables_samples)
+
+    reconstruction_images = np.append(
+                        test_first_10_images, 
+                        sigmoid(decoder_output), 
+                        axis = 0
+                    )
+
+    save_images(reconstruction_images, "task_3_2")
+
     num_interpolations = 5
     for i in range(5):
 

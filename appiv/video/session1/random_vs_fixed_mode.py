@@ -5,15 +5,18 @@ the same category.
 import random
 from data import DataSet
 
-import sys
+import argparse
 
 ##ApplyEyeMakeup, ApplyLipstick, Archery, BabyCrawling, BalanceBeam
-fix_mode = str(sys.argv)
+parser = argparse.ArgumentParser()
+parser.add_argument("-op", "--option", type=str, help="Action parameter")
+args = parser.parse_args()
+fix_mode = args.option
 
 class_limit = 5  # int, can be 1-101 or None
 seq_length = 5
 
-data = DataSet(seq_length,class_limit)
+data = DataSet(seq_length, class_limit)
 nb_classes = len(data.classes)
 
 # Try a random guess.

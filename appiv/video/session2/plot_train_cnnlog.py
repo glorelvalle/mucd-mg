@@ -13,7 +13,13 @@ def main(training_log):
         accuracies_v = []
         top_5_accuracies = []
         cnn_benchmark = []  # random results
-        for epoch, acc, loss, val_acc, val_loss, in reader:
+        for (
+            epoch,
+            acc,
+            loss,
+            val_acc,
+            val_loss,
+        ) in reader:
             accuracies_t.append(float(acc))
             accuracies_v.append(float(val_acc))
             cnn_benchmark.append(0.2)  # random
@@ -21,12 +27,11 @@ def main(training_log):
         plt.plot(accuracies_t)
         plt.plot(accuracies_v)
         plt.plot(cnn_benchmark)
-        plt.savefig('inception-training-1602753951.8033223.png')
+        plt.savefig("inception-training-1602753951.8033223.png")
         plt.show()
-        
 
 
-if __name__ == '__main__':
-    
-    training_log = 'data/logs/inception-training-1602753951.8033223.log'
+if __name__ == "__main__":
+
+    training_log = "data/logs/inception-training-1602753951.8033223.log"
     main(training_log)

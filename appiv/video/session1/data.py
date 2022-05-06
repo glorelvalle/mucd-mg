@@ -12,6 +12,7 @@ import threading
 from processor import process_image
 from tensorflow.keras.utils import to_categorical
 
+
 class threadsafe_iterator:
     def __init__(self, iterator):
         self.iterator = iterator
@@ -24,14 +25,17 @@ class threadsafe_iterator:
         with self.lock:
             return next(self.iterator)
 
+
 def threadsafe_generator(func):
     """Decorator"""
+
     def gen(*a, **kw):
         return threadsafe_iterator(func(*a, **kw))
+
     return gen
 
-class DataSet():
 
+class DataSet:
     def __init__(self, seq_length=40, class_limit=None, image_shape=(224, 224, 3)):
         """Constructor.
         seq_length = (int) the number of frames to consider
@@ -40,7 +44,7 @@ class DataSet():
         """
         self.seq_length = seq_length
         self.class_limit = class_limit
-        self.sequence_path = os.path.join('data', 'sequences')
+        self.sequence_path = os.path.join("data", "sequences")
         self.max_frames = 300  # max number of frames a video can have for us to use it
 
         # Get the data.
@@ -57,7 +61,7 @@ class DataSet():
     @staticmethod
     def get_data():
         """Load our data from file."""
-        with open(os.path.join('data', 'data_file.csv'), 'r') as fin:
+        with open(os.path.join("data", "data_file.csv"), "r") as fin:
             reader = csv.reader(fin)
             data = list(reader)
 
@@ -68,8 +72,11 @@ class DataSet():
         than N frames. Also limit it to classes we want to use."""
         data_clean = []
         for item in self.data:
-            if int(item[3]) >= self.seq_length and int(item[3]) <= self.max_frames \
-                    and item[1] in self.classes:
+            if (
+                int(item[3]) >= self.seq_length
+                and int(item[3]) <= self.max_frames
+                and item[1] in self.classes
+            ):
                 data_clean.append(item)
 
         return data_clean
@@ -87,7 +94,7 @@ class DataSet():
 
         # Return.
         if self.class_limit is not None:
-            return classes[:self.class_limit]
+            return classes[: self.class_limit]
         else:
             return classes
 
@@ -109,7 +116,7 @@ class DataSet():
         train = []
         test = []
         for item in self.data:
-            if item[0] == 'train':
+            if item[0] == "train":
                 train.append(item)
             else:
                 test.append(item)
@@ -122,14 +129,14 @@ class DataSet():
         """
         # Get the right dataset.
         train, test = self.split_train_test()
-        data = train if train_test == 'train' else test
+        data = train if train_test == "train" else test
 
         print("Loading %d samples into memory for %sing." % (len(data), train_test))
 
         X, y = [], []
         for row in data:
 
-            if data_type == 'images':
+            if data_type == "images":
                 frames = self.get_frames_for_sample(row)
                 frames = self.rescale_list(frames, self.seq_length)
 
@@ -157,7 +164,7 @@ class DataSet():
         """
         # Get the right dataset for the generator.
         train, test = self.split_train_test()
-        data = train if train_test == 'train' else test
+        data = train if train_test == "train" else test
 
         print("Creating %s generator with %d samples." % (train_test, len(data)))
 
@@ -199,8 +206,10 @@ class DataSet():
     def get_extracted_sequence(self, data_type, sample):
         """Get the saved extracted features."""
         filename = sample[2]
-        path = os.path.join(self.sequence_path, filename + '-' + str(self.seq_length) + \
-            '-' + data_type + '.npy')
+        path = os.path.join(
+            self.sequence_path,
+            filename + "-" + str(self.seq_length) + "-" + data_type + ".npy",
+        )
         if os.path.isfile(path):
             return np.load(path)
         else:
@@ -237,15 +246,15 @@ class DataSet():
     def get_frames_for_sample(sample):
         """Given a sample row from the data file, get all the corresponding frame
         filenames."""
-        path = os.path.join('data', sample[0], sample[1])
+        path = os.path.join("data", sample[0], sample[1])
         filename = sample[2]
-        images = sorted(glob.glob(os.path.join(path, filename + '*jpg')))
+        images = sorted(glob.glob(os.path.join(path, filename + "*jpg")))
         return images
 
     @staticmethod
     def get_filename_from_image(filename):
         parts = filename.split(os.path.sep)
-        return parts[-1].replace('.jpg', '')
+        return parts[-1].replace(".jpg", "")
 
     @staticmethod
     def rescale_list(input_list, size):
@@ -272,9 +281,7 @@ class DataSet():
 
         # Now sort them.
         sorted_lps = sorted(
-            label_predictions.items(),
-            key=operator.itemgetter(1),
-            reverse=True
+            label_predictions.items(), key=operator.itemgetter(1), reverse=True
         )
 
         # And return the top N.

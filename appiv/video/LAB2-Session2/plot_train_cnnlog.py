@@ -5,7 +5,7 @@ import csv
 import matplotlib.pyplot as plt
 
 
-def plot_accuracy(training_log):
+def plot_accuracy(training_log, n_classes):
     with open(training_log) as fin:
         reader = csv.reader(fin)
         next(reader, None)  # skip the header
@@ -21,7 +21,7 @@ def plot_accuracy(training_log):
         plt.plot(accuracies_t, label="CNN train accuracy")
         plt.plot(accuracies_v, label="CNN valid accuracy")
         plt.plot(cnn_benchmark, label="Random accuracy")
-        plt.title(f"CNN Accuracies")
+        plt.title(f"CNN Accuracies ({n_classes} classes)")
         plt.xlabel("Epoch")
         plt.ylabel("Accuracy")
         plt.legend()
@@ -30,7 +30,7 @@ def plot_accuracy(training_log):
         file_name = training_log.split('/')[-1]
         file_name = file_name.split('log')[0]
 
-        plt.savefig(f"{file_name}.png")
+        plt.savefig(f"{file_name}png")
         plt.show()
         
 

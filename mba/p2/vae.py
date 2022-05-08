@@ -119,19 +119,21 @@ def vae_lower_bound(gen_params, rec_params, data):
     # TODO compute a noisy estiamte of the lower bound by using a single Monte Carlo sample:
 
     # 1 - compute the encoder output using neural_net_predict given the data and rec_params
+    encoder_output = neural_net_predict(rec_params, data)
+
     # 2 - sample the latent variables associated to the batch in data 
     #     (use sample_latent_variables_from_posterior and the encoder output)
+    latent_variables_samples = sample_latent_variables_from_posterior(encoder_output)
+
     # 3 - use the sampled latent variables to reconstruct the image and to compute the log_prob of the actual data
     #     (use neural_net_predict for that)
-    # 4 - compute the KL divergence between q(z|x) and the prior (use compute_KL for that)
-    # 5 - return an average estimate (per batch point) of the lower bound by substracting the KL to the data dependent term
-
-    encoder_output = neural_net_predict(rec_params, data)
-    latent_variables_samples = sample_latent_variables_from_posterior(encoder_output)
     decoder_output = neural_net_predict(gen_params, latent_variables_samples)
-    KL_divergence = compute_KL(encoder_output)
     log_prob = bernoulli_log_prob(data, decoder_output)
 
+    # 4 - compute the KL divergence between q(z|x) and the prior (use compute_KL for that)
+    KL_divergence = compute_KL(encoder_output)
+
+    # 5 - return an average estimate (per batch point) of the lower bound by substracting the KL to the data dependent term
     estimated_lower_bound = np.mean(
                                 log_prob - KL_divergence,
                                 axis = -1
@@ -246,8 +248,8 @@ if __name__ == '__main__':
 
     # TODO Generate 25 images from prior (use neural_net_predict) and save them using save_images
     z_prior_samples = npr.randn(25, latent_dim)
-    x_samples = neural_net_predict(rec_params, z_prior_samples)
-    save_images(sigmoide(x_samples), "task_3_1")
+    x_samples = neural_net_predict(gen_params, z_prior_samples)
+    save_images(sigmoid(x_samples), "task_3_1")
 
     # TODO Generate image reconstructions for the first 10 test images (use neural_net_predict for each model) 
     # and save them alongside with the original image using save_images

@@ -10,15 +10,13 @@ from data import DataSet
 from processor import process_image
 from keras.models import load_model
 
-def main(nb_images=5):
+import matplotlib.pyplot as plt
+
+
+def validate(classes, checkpoint, nb_images=5):
     """Spot-check `nb_images` images."""
-    class_limit = 5  # int, can be 1-101 or None
-    seq_length = 5
-
-    data = DataSet(seq_length, class_limit)
-
-
-    model = load_model('data/checkpoints/inception.009-0.18.hdf5')
+    
+    model = load_model(checkpoint)
 
     # Get all our test images.
     images = glob.glob(os.path.join('data', 'test', '**', '*.jpg'))
@@ -32,14 +30,19 @@ def main(nb_images=5):
         # Turn the image into an array.
         print(image)
         image_arr = process_image(image, (299, 299, 3))
+        # show image
+        plt.imshow(image_arr)
+        plt.show()
+
         image_arr = np.expand_dims(image_arr, axis=0)
+        
 
         # Predict.
         predictions = model.predict(image_arr)
 
         # Show how much we think it's each one.
         label_predictions = {}
-        for i, label in enumerate(data.classes):
+        for i, label in enumerate(classes):
             label_predictions[label] = predictions[0][i]
 
         sorted_lps = sorted(label_predictions.items(), key=operator.itemgetter(1), reverse=True)
@@ -51,5 +54,5 @@ def main(nb_images=5):
             print("%s: %.2f" % (class_prediction[0], class_prediction[1]))
             i += 1
 
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+#    main()

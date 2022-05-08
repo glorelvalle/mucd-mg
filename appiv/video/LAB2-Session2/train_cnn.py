@@ -13,9 +13,11 @@ from keras.models import Model
 from keras.activations import relu, softmax
 from keras.layers import Dense, GlobalAveragePooling2D
 from keras.callbacks import ModelCheckpoint, TensorBoard, EarlyStopping, CSVLogger
-from data import DataSet
 import os.path
 import time
+
+timestamp = time.time()
+
 
 
 def get_generators(classes):
@@ -93,13 +95,13 @@ def freeze_all_but_mid_and_top(model):
     ##In this case we chose to train the top inception blocks, i.e. we will freeze the first 172 layers and unfreeze the rest:
     for layer in model.layers[:172]:
         layer.trainable = False
-    for layer in model.layers[:172]:
+    for layer in model.layers[172:]:
         layer.trainable = True
 
     # we need to recompile the model for these modifications to take effect
     # we use SGD with a low learning rate
     model.compile(
-        optimizer=SGD(lr=0.0001, momentum=0.9),
+        optimizer=SGD(learning_rate=0.0001, momentum=0.9),
         loss="categorical_crossentropy",
         metrics=["accuracy"],
     )
@@ -109,7 +111,7 @@ def freeze_all_but_mid_and_top(model):
 
 def train_model(model, nb_epoch, generators, callbacks=[]):
     train_generator, validation_generator = generators
-    model.fit_generator(
+    model.fit(
         train_generator,
         steps_per_epoch=10,
         validation_data=validation_generator,
@@ -120,16 +122,16 @@ def train_model(model, nb_epoch, generators, callbacks=[]):
     return model
 
 
-def train(classes, weights_file=None, epoch = 10):
+def train(classes, weights_file=None):
     n_classes = len(classes)
-    model = get_model(n_classes, weights_file)
+    model = get_model(n_classes)
     generators = get_generators(classes)
 
     if weights_file is None:
         print("Loading network from ImageNet weights.")
         # Get and train the top layers.
         model = freeze_all_but_top(model)
-        model = train_model(model, epoch, generators)
+        model = train_model(model, 10, generators)
     else:
         print("Loading saved model: %s." % weights_file)
         model.load_weights(weights_file)
@@ -155,7 +157,6 @@ def train(classes, weights_file=None, epoch = 10):
     tensorboard = TensorBoard(log_dir=os.path.join("data", "logs", inception_prefix))
 
     # Helper: Save results.
-    timestamp = time.time()
     csv_logger = CSVLogger(
         os.path.join(
             "data", "logs", inception_prefix + "-" + "training-" + str(timestamp) + ".log"

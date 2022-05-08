@@ -1,7 +1,7 @@
 import random
 from data import DataSet
 
-def random_vs_fixed(fix_mode="ApplyEyeMakeup", verbose_fix=True):
+def random_vs_fixed(fix_mode="ApplyEyeMakeup", verbose_fix=True, verbose_random=False):
     """
     Classification of samples based on random chance vs always guessing the same category.
     """
@@ -28,5 +28,7 @@ def random_vs_fixed(fix_mode="ApplyEyeMakeup", verbose_fix=True):
 
     if verbose_fix:
         print(f"- {fix_mode} mode matched %.2f%%" % (mode_accuracy))
+    if verbose_random:
+        print(f"- Random mode matched %.2f%%" % (random_accuracy))
 
     return random_accuracy, mode_accuracy

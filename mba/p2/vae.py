@@ -64,10 +64,7 @@ def sample_latent_variables_from_posterior(encoder_output):
     D = np.shape(encoder_output)[-1] // 2
     mean, log_std = encoder_output[:, :D], encoder_output[:, D:]
 
-    # TODO use the reparametrization trick to generate one sample from q(z|x) per each batch datapoint
-    # use npr.randn for that.
-    # The output of this function is a matrix of size the batch x the number of latent dimensions
-
+    # Generate one sample from q(z|x) per each batch datapoint
     Z = mean + np.exp(log_std)*npr.randn(*mean.shape)
 
     return Z
@@ -79,12 +76,10 @@ def bernoulli_log_prob(targets, logits):
     # logits are in R
     # Targets must be between 0 and 1
 
-    # TODO compute the log probability of the targets given the generator output specified in logits
-    # sum the probabilities across the dimensions of each image in the batch. The output of this function 
-    # should be a vector of size the batch size
+    # Compute the log probability of the targets given the generator output specified in logits
+    # Sum the probabilities across the dimensions of each image in the batch
 
     probs = sigmoid(logits)
-
     log_prob = np.sum(
                     np.log(
                         targets*probs + (1-targets)*(1-probs)
@@ -101,10 +96,7 @@ def compute_KL(q_means_and_log_stds):
     D = np.shape(q_means_and_log_stds)[-1] // 2
     mean, log_std = q_means_and_log_stds[:, :D], q_means_and_log_stds[:, D:]
 
-    # TODO compute the KL divergence between q(z|x) and the prior (use a standard Gaussian for the prior)
-    # Use the fact that the KL divervence is the sum of KL divergence of the marginals if q and p factorize
-    # The output of this function should be a vector of size the batch size
-
+    # Compute the KL divergence between q(z|x) and the prior as a standard Gaussian
     KL_divergence = np.sum(
                         0.5*(np.exp(2*log_std) + mean**2 - 1 - 2*log_std), 
                         axis = -1
@@ -115,22 +107,19 @@ def compute_KL(q_means_and_log_stds):
 # This evaluates the lower bound
 
 def vae_lower_bound(gen_params, rec_params, data):
-
-    # TODO compute a noisy estiamte of the lower bound by using a single Monte Carlo sample:
+    # Compute a noisy estiamte of the lower bound by using a single Monte Carlo sample:
 
     # 1 - compute the encoder output using neural_net_predict given the data and rec_params
     encoder_output = neural_net_predict(rec_params, data)
 
     # 2 - sample the latent variables associated to the batch in data 
-    #     (use sample_latent_variables_from_posterior and the encoder output)
     latent_variables_samples = sample_latent_variables_from_posterior(encoder_output)
 
-    # 3 - use the sampled latent variables to reconstruct the image and to compute the log_prob of the actual data
-    #     (use neural_net_predict for that)
+    # 3 -  Reconstruct the image using the sampled latent variables and compute the log_prob of the actual data
     decoder_output = neural_net_predict(gen_params, latent_variables_samples)
     log_prob = bernoulli_log_prob(data, decoder_output)
 
-    # 4 - compute the KL divergence between q(z|x) and the prior (use compute_KL for that)
+    # 4 - compute the KL divergence between q(z|x) and the prior
     KL_divergence = compute_KL(encoder_output)
 
     # 5 - return an average estimate (per batch point) of the lower bound by substracting the KL to the data dependent term
@@ -207,9 +196,7 @@ if __name__ == '__main__':
     
     t = 1
 
-    # TODO write here the initial values for the ADAM parameters (including the m and v vectors)
-    # you can use np.zeros_like(flattened_current_params) to initialize m and v
-
+    # Initial values for the ADAM parameters (including the m and v vectors)
     alpha = 0.001
     beta1 = 0.9
     beta2 = 0.999
@@ -228,7 +215,7 @@ if __name__ == '__main__':
             batch = np.arange(batch_size * n_batch, np.minimum(N, batch_size * (n_batch + 1)))
             grad = objective_grad(flattened_current_params)
 
-            # TODO Use the estimated noisy gradient in grad to update the paramters using the ADAM updates
+            # Update the paramters using the ADAM updates with noisy gradient
 
             m = beta1*m + (1-beta1)*grad
             v = beta2*v + (1-beta2)*grad**2
@@ -246,14 +233,17 @@ if __name__ == '__main__':
 
     gen_params, rec_params = unflat_params(flattened_current_params)
 
-    # TODO Generate 25 images from prior (use neural_net_predict) and save them using save_images
+    ### TASK 3.1 ###
+
+    # Generate 25 images from prior and save
     z_prior_samples = npr.randn(25, latent_dim)
     x_samples = neural_net_predict(gen_params, z_prior_samples)
     save_images(sigmoid(x_samples), "task_3_1")
 
-    # TODO Generate image reconstructions for the first 10 test images (use neural_net_predict for each model) 
-    # and save them alongside with the original image using save_images
-    
+
+    ### TASK 3.2 ###
+
+    # Generate image reconstructions for the first 10 test images    
     test_first_10_images = test_images[:10]
     encoder_output = neural_net_predict(rec_params, test_first_10_images)
     latent_variables_samples = sample_latent_variables_from_posterior(encoder_output)
@@ -267,17 +257,36 @@ if __name__ == '__main__':
 
     save_images(reconstruction_images, "task_3_2")
 
+
+    ### TASK 3.3 ###
+
+    # Generate 5 interpolations (by a convex conbination) from the 
+    # first test image to the second test image, for the third to
+    # the fourth and so on until 5 interpolations are computed in 
+    # latent space
+
     num_interpolations = 5
+    num_interpolation_steps = 25
+
     for i in range(5):
 
-        # TODO Generate 5 interpolations from the first test image to the second test image, 
-        # for the third to the fourth and so on until 5 interpolations
-        # are computed in latent space and save them using save images. 
-        # Use a different file name to store the images of each iterpolation.
-        # To interpolate from  image I to image G use a convex conbination. Namely,
-        # I * s + (1-s) * G where s is a sequence of numbers from 0 to 1 obtained by numpy.linspace
-        # Use mean of the recognition model as the latent representation.
+        # Get first and second image to compute interpolations
+        first_image = neural_net_predict(rec_params, [test_images[2*i]])
+        second_image = neural_net_predict(rec_params, [test_images[2*i+1]])
 
-        pass
+        # Use mean of the recognition model as the latent representation.        
+        D = np.shape(first_image)[1] // 2
+        first_latents = np.array(first_image[:, :D])
+        second_latents = np.array(second_image[:, :D])
 
+        # Get interpolation scalars using a convex conbination
+        S = np.linspace(0, 1, num_interpolation_steps)[::-1]
+        interpolation = np.array([s*first_latents + (1-s)*second_latents for s in S])
+
+        # Reshape to (num_interpolation_steps, n_features)
+        interpolation = interpolation.reshape(num_interpolation_steps, -1)
+
+        # Compute in latent space and save them using save images
+        image = neural_net_predict(gen_params, interpolation)
+        save_images(sigmoid(image), f"task_3_3_{i}")
 

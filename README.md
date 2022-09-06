@@ -8,9 +8,12 @@ Asignaturas troncales:
 * [Métodos Avanzados en Aprendizaje Automático](maaa/)
 * [Procesamiento de Señal y Transformadas](pst/)
 * [Procesos Estocásticos](pe/)
+* [Optimización](opt/)
+* [Gestión de Datos](gd/)
+
+Asignaturas optativas:
 * [Aprendizaje Profundo para Procesamiento de Señales de Imagen y Vídeo](appiv/)
 * [Métodos Bayesianos](mba/)
 * [Métodos Funcionales](mf/)
 * [Procesamiento del Lenguaje Natural](pln/)
-* [Optimización](opt/)
-* [Gestión de Datos](gd/)
+* ...
